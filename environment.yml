@@ -1,0 +1,6 @@
+name: virpipe
+dependencies:
+  - python>=3.7
+  - pip
+  - nextflow
+  
