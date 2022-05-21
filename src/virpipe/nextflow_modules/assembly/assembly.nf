@@ -44,6 +44,8 @@ workflow assembly_nanopore {
 process spades {
     tag "${params.prefix}:spades"
 
+    errorStrategy 'ignore'
+
     publishDir "${params.outdir}/assembly", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
     
     input:
@@ -64,6 +66,8 @@ process spades {
 
 process megahit {
     tag "${params.prefix}:megahit"
+
+    errorStrategy 'ignore'
     
     publishDir "${params.outdir}/assembly", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
 
@@ -80,6 +84,8 @@ process megahit {
 
 process canu {
     tag "${params.prefix}:canu"
+
+    errorStrategy 'ignore'
     
     publishDir "${params.outdir}/assembly", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
 
@@ -96,6 +102,8 @@ process canu {
 
 process flye {
     tag "${params.prefix}:flye"
+
+    errorStrategy 'ignore'
     
     publishDir "${params.outdir}/assembly", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
 
