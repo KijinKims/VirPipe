@@ -22,6 +22,7 @@ tar -xzvf vp-db.tar.gz && mv VP_DB $HOME/
 
 ```bash
 #test
+cd sample
 virpipe end_to_end --platform nanopore -x input.fastq --prefix test
 ```
 
