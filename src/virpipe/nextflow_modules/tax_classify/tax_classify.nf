@@ -116,6 +116,7 @@ process kreport2list {
 }
 
 process metacomp {
+    errorStrategy 'ignore'
     tag "${params.prefix}:metacomp"
     
     publishDir "${params.outdir}/tax_classify", mode: 'copy'
