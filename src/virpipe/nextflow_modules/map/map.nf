@@ -2,7 +2,6 @@ nextflow.enable.dsl=2
 
 workflow {
     main:
-
         if (params.platform == 'illumina') {
             Channel.fromPath([params.x, params.x2]).buffer(size:2).set{fastq_pair}
             map_illumina(fastq_pair)

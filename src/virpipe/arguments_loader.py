@@ -44,10 +44,6 @@ class ListArg(Arg):
         else:
             return f"--{self.name} {self.li[idx]}"
             
-
-
-        
-
 class FileListArg(ListArg):
     def resolve_relative_path(self):
         self.li = [str(Path(p).resolve()) for p in self.li]

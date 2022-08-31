@@ -204,10 +204,6 @@ class Parser:
 
         database_parser = subparsers.add_parser('database')
         database_subparsers = database_parser.add_subparsers(dest='subtask', title='subtasks', description='valid subtasks', required=True)
-
-        download_parser = database_subparsers.add_parser('download', argument_default=argparse.SUPPRESS)
-        download_parser.add_argument('--db', nargs='*', choices=download_db_list)
-        download_parser.add_argument('--dir', '-d', default=pkgs_dir)
         
         build_shared_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
         build_shared_parser.add_argument('--nextflow_binary', nargs='?', default='nextflow')
@@ -233,6 +229,11 @@ class Parser:
         build_taxonomizr_parser.add_argument('--prot_a2t', nargs='?', type=lambda x: parser_path_check(build_taxonomizr_parser, valid_file, x))
         build_taxonomizr_parser.add_argument('--taxonnodes', nargs='?', type=lambda x: parser_path_check(build_taxonomizr_parser, valid_file, x))
         build_taxonomizr_parser.add_argument('--taxonnames', nargs='?', type=lambda x: parser_path_check(build_taxonomizr_parser, valid_file, x))
+
+        build_kraken2_parser = build_parsers.add_parser('kraken2', parents = [build_shared_parser], argument_default=argparse.SUPPRESS)
+        build_kraken2_parser.add_argument('--db', nargs='?', type=str, required=True)
+        build_kraken2_parser.add_argument('--library', nargs='?', choices=['archaea', 'bacteria', 'plasmid', 'viral', 'human', 'fungi', 'plant', 'protozoa', 'nr', 'nt', 'UniVec', 'UniVec_Core'])
+        build_kraken2_parser.add_argument('--sequence', nargs='*', type=lambda x: parser_path_check(build_kraken2_parser, valid_fasta, x))
 
         self.args = parser.parse_args(argv)
 

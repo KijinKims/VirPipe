@@ -22,7 +22,7 @@ process generate_taxid_map {
 }
 
 process makeblastdb {
-    publishDir "${params.outdir}" , mode: 'copy'
+    publishDir "${params.blastdbdir}" , mode: 'move'
 
     input:
         path infile

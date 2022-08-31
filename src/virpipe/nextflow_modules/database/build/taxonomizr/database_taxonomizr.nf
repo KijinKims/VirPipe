@@ -1,13 +1,12 @@
 nextflow.enable.dsl=2
 
 workflow {
-
-    main:
-        make_db()
+    build_database()
 }
 
-process make_db {
-    publishDir "${params.outdir}", mode: 'copy'
+process build_database {
+    publishDir "${params.taxonomizrdb}", mode: 'move'
+    tag "${params.prefix}:build_taxonomizr_database"
 
     output:
         path "accessionTaxa.sql"

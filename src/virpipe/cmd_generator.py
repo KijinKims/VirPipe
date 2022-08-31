@@ -55,9 +55,9 @@ class AnalysisCmdGenerator(CmdGenerator):
                 file_input = getattr(args, attr)
             else: # other args shared to all samples
                 if type(getattr(args, attr)) == list:
-                    if attr =='ref' or attr =='cds':
+                    if attr =='ref':
                         argsloader.add(FileListArg(attr, getattr(args, attr)))
-                    elif attr == 'tool':
+                    elif attr == 'tool' or attr == 'assembly_tool':
                         argsloader.add(ValueArg(attr, ' '.join(getattr(args, attr))))
                     else:
                         argsloader.add(ListArg(attr, getattr(args, attr)))
@@ -75,9 +75,6 @@ class AnalysisCmdGenerator(CmdGenerator):
 
             if argsloader.has('ref'):
                 argsloader.get('ref').resolve_relative_path()
-
-            if argsloader.has('cds'):
-                argsloader.get('cds').resolve_relative_path()
 
         return argsloader, file_input
 
@@ -114,17 +111,6 @@ class AnalysisCmdGenerator(CmdGenerator):
 
         self.validify_file(file_input)
 
-    def validify_file_ref_cds(self, file_ref_cds):
-        with open(file_ref_cds, newline='') as csvfile:
-            reader = file_handle_as_csv_dictreader_object(csvfile)
-            header = reader.fieldnames
-
-            for col_name in header:
-                if col_name not in ['ref', 'cds']:
-                    raise InputError(f"File ref_cds should contain only 'ref' and 'cds' columns! The argument '{col_name}' is neither of them.")
-
-        self.validify_file(file_ref_cds)
-
     def convert_file_input_to_argsloader(self, file_input):
         argsloader = ArgsLoader()
         with open(file_input, newline='') as csvfile:
@@ -132,16 +118,6 @@ class AnalysisCmdGenerator(CmdGenerator):
             for row in reader:
                 for key, value in row.items():
                     argsloader.add(ListArg(key, value))
-        
-        return argsloader
-
-    def convert_ref_cds_to_argsloader(self, file_ref_cds):
-        argsloader = ArgsLoader()
-        with open(file_ref_cds, newline='') as csvfile:
-            reader = file_handle_as_csv_dictreader_object(csvfile)
-            for row in reader:
-                for key, value in row.items():
-                    argsloader.add(FileListArg(key, value))
         
         return argsloader
     
@@ -259,6 +235,8 @@ class BuildDBCmdGenerator(CmdGenerator):
                 argsloader.add(ValueArg(attr, getattr(args, attr)))
             elif type(getattr(args, attr)) == bool:
                 argsloader.add(BooleanArg(attr, getattr(args, attr)))
+            elif type(getattr(args, attr)) == list:
+                argsloader.add(FileListArg(attr, getattr(args, attr)))
             else:
                 print("This case cannot happen.", file=sys.stderr)
                 exit(1)
@@ -266,7 +244,6 @@ class BuildDBCmdGenerator(CmdGenerator):
         return argsloader
 
     def get_cmd(self):
-
         return self.generate_nxf_cmd()
 
     def generate_nxf_cmd(self) -> str:
