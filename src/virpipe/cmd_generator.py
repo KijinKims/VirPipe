@@ -142,7 +142,7 @@ class AnalysisCmdGenerator(CmdGenerator):
 
             if argsloader['task'] in ['polish', 'post_assembly', 'filter'] or argsloader['platform'] == 'nanopore':
                 if argsloader['task'] == 'filter':
-                    if argsloader['subtask'] ['map', 'blast', 'contigs']:
+                    if argsloader['subtask'] in ['map', 'blast', 'contigs']:
                         if argsloader.has('x2'):
                             warnings.warn("Chosen analysis doesn't need -x2. Given argument will be ignored.")
                 if argsloader['task'] == 'polish':
