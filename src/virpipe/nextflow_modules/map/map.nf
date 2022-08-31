@@ -24,7 +24,7 @@ workflow map_illumina {
         map_pair(ref_fastq_pair)
         qualimap(map_pair.out.flatten())
         bamcov(map_pair.out.flatten())
-        Channel.from("SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_COV\tAVG_BASEQ\tAVG_MAPQ").set{bamcov_header}
+        Channel.from("SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_DEP\tAVG_BASEQ\tAVG_MAPQ").set{bamcov_header}
         bamcov.out.map{ it.text }.set{ bamcov_outputs }
         bamcov_header.concat(bamcov_outputs).collectFile(name: "${params.prefix}.map.tsv", newLine: true, storeDir: "${params.outdir}/map", sort: false).set{map_out}
 }
@@ -42,7 +42,7 @@ workflow map_nanopore {
         map_single(ref_fastx)
         qualimap(map_single.out.flatten())
         bamcov(map_single.out.flatten())
-        Channel.from("SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_COV\tAVG_BASEQ\tAVG_MAPQ").set{bamcov_header}
+        Channel.from("SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_DEP\tAVG_BASEQ\tAVG_MAPQ").set{bamcov_header}
         bamcov.out.map{ it.text }.set{ bamcov_outputs }
         bamcov_header.concat(bamcov_outputs).collectFile(name: "${params.prefix}.map.tsv", newLine: true, storeDir: "${params.outdir}/map", sort: false).set{map_out}
 }

@@ -31,10 +31,10 @@ process filter_map_process {
     if (nrow(tb)==0){
         quit("no")
     }
-    #"SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_COV\tAVG_BASEQ\tAVG_MAPQ"
+    #"SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_DEP\tAVG_BASEQ\tAVG_MAPQ"
     names(tb)[names(tb) == "END"] <- "LEN"
     tb <- subset(tb, select=-START)
-    filtered_tb <- filter(tb, AVG_COV > ${params.min_map_out_avg_cov})
+    filtered_tb <- filter(tb, AVG_DEP > ${params.min_map_out_avg_dep})
     if (nrow(tb)>0) {
         sorted_filtered_tb <- filtered_tb[order(-filtered_tb\$"PERCENT_COVERED"),]
         write.table(sorted_filtered_tb, file ="${map_out.baseName}.filtered.tsv", row.names=FALSE, sep='\t', quote=FALSE)

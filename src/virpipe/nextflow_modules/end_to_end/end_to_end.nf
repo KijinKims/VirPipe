@@ -67,5 +67,7 @@ workflow {
     filter_blast(blast.out)
     match_taxonomy(filter_blast.out)
 
-    zoonotic_rank(filter_contigs.out)
+    if(params.include_zoonotic_rank){
+        zoonotic_rank(filter_contigs.out)
+    }
 }
