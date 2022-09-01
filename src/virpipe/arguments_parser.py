@@ -190,7 +190,7 @@ class Parser:
 
         end_to_end_parser = subparsers.add_parser('end_to_end', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
         end_to_end_parser.add_argument('--host_genome', nargs='*', type=lambda x: parser_path_check(end_to_end_parser, valid_fasta, x))
-        end_to_end_parser.add_argument('--include_zoonotic_rank', action='store_true', type=bool)
+        end_to_end_parser.add_argument('--include_zoonotic_rank', action='store_true', default=True)
         end_to_end_parser.add_argument('--assembly_tool', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
 
         consensus_parser = subparsers.add_parser('consensus', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
