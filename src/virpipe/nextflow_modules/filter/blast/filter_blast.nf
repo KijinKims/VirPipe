@@ -35,7 +35,7 @@ process filter_blast_process {
 
     library(dplyr)
 
-    tb <- read.table("${blast_out}", sep="\t", header=TRUE)
+    tb <- read.table("${blast_out}", sep="\t", header=TRUE, comment.char = "")
     filtered_tb <- tb %>%
             filter(
                 .data[["ALN_LEN"]] > $min_blast_aln_len

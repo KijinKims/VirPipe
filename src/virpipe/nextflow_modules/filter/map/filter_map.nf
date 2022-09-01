@@ -27,7 +27,7 @@ process filter_map_process {
     #!/usr/bin/env Rscript
     library(dplyr)
     
-    tb <- read.table("${map_out}", sep="\t", header=TRUE)
+    tb <- read.table("${map_out}", sep="\t", header=TRUE, comment.char = "")
     if (nrow(tb)==0){
         quit("no")
     }
