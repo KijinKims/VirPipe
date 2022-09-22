@@ -1,1 +1,3 @@
 src/dist
+src/*.egg-info
+src/build
