@@ -1,4 +1,0 @@
-setuptools
-requests
-biopython
-wget
