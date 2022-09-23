@@ -118,10 +118,6 @@ class ArgumentsObject():
         if 'outdir' not in self.params:
             self.params['outdir'] = self.params['prefix']
 
-        self.params['running_report'] = f"{self.params['outdir']}/report.html"
-        self.params['running_trace'] = f"{self.params['outdir']}/trace.txt"
-        self.params['running_timeline'] = f"{self.params['outdir']}/timeline.html"
-
     def reproduce_run_objs(self):
         run_objs = []
 
