@@ -1,5 +1,4 @@
 import sys
-import subprocess
 
 from .arguments_parser import Parser
 from .arguments_object import ArgumentsObject

@@ -118,21 +118,21 @@ class Parser:
         shared_parser.add_argument('--nextflow_modules_dir', nargs='?', default=nxf_script_dir)
         shared_parser.add_argument('--config', '-c', nargs='?')
         shared_parser.add_argument('--with-report', nargs='?')
-        shared_parser.add_argument('--with-trace', '-c', nargs='?')
-        shared_parser.add_argument('--with-timeline', '-c', nargs='?')
+        shared_parser.add_argument('--with-trace', nargs='?')
+        shared_parser.add_argument('--with-timeline', nargs='?')
 
         platform_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
         platform_parser.add_argument('--platform', nargs='?', choices=['illumina', 'nanopore'], required=True)
 
         input_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
-        input_parser.add_argument('-x', nargs='*', type=lambda x: parser_path_check(input_parser, valid_file, x))
-        input_parser.add_argument('-x2', nargs='*', type=lambda x: parser_path_check(input_parser, valid_fastq, x))
+        input_parser.add_argument('--x', nargs='*', type=lambda x: parser_path_check(input_parser, valid_file, x))
+        input_parser.add_argument('--x2', nargs='*', type=lambda x: parser_path_check(input_parser, valid_fastq, x))
 
         post_assembly_input_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
-        post_assembly_input_parser.add_argument('-x', nargs='*', type=lambda x: parser_path_check(post_assembly_input_parser, valid_fasta, x))
+        post_assembly_input_parser.add_argument('--x', nargs='*', type=lambda x: parser_path_check(post_assembly_input_parser, valid_fasta, x))
 
         general_input_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
-        general_input_parser.add_argument('-x', nargs='*', type=lambda x: parser_path_check(general_input_parser, valid_file, x))
+        general_input_parser.add_argument('--x', nargs='*', type=lambda x: parser_path_check(general_input_parser, valid_file, x))
         
         qc_parser = subparsers.add_parser('qc', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
 

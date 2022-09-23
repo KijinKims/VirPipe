@@ -11,25 +11,24 @@ class Pipeline():
         cmd += f"-c {self.run_obj.config} "
 
         if self.run_obj.profile:
-            if type(self.run_obj.profile) is list:
+            if type(self.run_obj.profile) == list:
                 cmd += f"-profile {','.join(self.run_obj.profile)} "
             else:
                 cmd += f"-profile {self.run_obj.profile}" 
 
         for param, value in self.run_obj.params.items():
-            if type(param) is list:
+            if type(value) == list:
                 cmd += f"--{param} {' '.join(value)} "
-            elif type(param) is bool and value:
-                cmd += f"--{param} "
+            elif type(value) == bool:
+                if value:
+                    cmd += f"--{param} "
             else:
                 cmd += f"--{param} {value} "
+
+        return cmd
 
 
     def run(self):
         command_string = self.generate_command()
         print(command_string)
-        subprocess.run(
-                command_string,
-                shell=True, 
-                check=True
-            )
+        #subprocess.run(command_string, shell=True, check=True)

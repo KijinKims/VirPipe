@@ -39,16 +39,18 @@ class ArgumentsObject():
 
         self.common_dict = args_dict
 
-        nxf_script = f"{args_dict['nextflow_modules_dir']}/{'_'.join([args_dict['task']] + [args_dict['subtask']] if 'subtask' in args_dict else [])}.nf'"
+        nxf_script = f"{args_dict['nextflow_modules_dir']}/{'_'.join([args_dict['task']] + ([args_dict['subtask']] if 'subtask' in args_dict else []))}.nf"
         self.nxf_script = nxf_script
 
         if 'config' in args_dict:
             self.config = args_dict['config']
         else:
-            self.config = f"{args_dict['nextflow_modules_dir']}/{'_'.join([args_dict['task']] + [args_dict['subtask']] if 'subtask' in args_dict else [])}.config'"
+            self.config = f"{args_dict['nextflow_modules_dir']}/{'_'.join([args_dict['task']] + ([args_dict['subtask']] if 'subtask' in args_dict else []))}.config'"
 
         if 'profile' in args_dict:
             self.profile = args_dict['profile']
+        else:
+            self.profile = None
 
         self.params = {}
         for k, v in args_dict.items():
@@ -57,7 +59,7 @@ class ArgumentsObject():
         
         self.input_args = {}
         for k, v in args_dict.items():
-            if k in sample_args:
+            if k in run_args:
                 self.input_args[k] = v
 
         self.file_input = args_dict['file_input'] if 'file_input' in args_dict else ''
@@ -89,15 +91,15 @@ class ArgumentsObject():
             header = reader.fieldnames
 
             for col_name in header:
-                if col_name not in sample_args:
-                    raise InputError(f"File inputs can contain following arguments({'/'.join(sample_args)})! The argument '{col_name}' is not valid. Please write it in the command.")
+                if col_name not in run_args:
+                    raise InputError(f"File inputs can contain following arguments({'/'.join(run_args)})! The argument '{col_name}' != valid. Please write it in the command.")
 
             reader = file_handle_as_csv_dictreader_object(csvfile)
             header = reader.fieldnames
 
             try:
                 for row in reader:
-                    row = dict(filter(lambda item: item[1] is not None, row.items()))
+                    row = dict(filter(lambda item: item[1] != None, row.items()))
 
                     # check the length of each row
                     if len(header) != len(row):
@@ -129,12 +131,14 @@ class ArgumentsObject():
 
         if 'prefix' in self.input_args:
 
-            n = self.input_args['prefix']
-            for k, v in self.input_args.items():
-                if k is not "oudir":
-                    assert n == len(v), f"Parameter '{v}' has a different length from that of 'prefix'."
+            n = len(self.input_args['prefix'])
+            if n == 0:
+                raise InputError("--prefix is required!")
 
-            for i in range(len(n)):
+            for k, v in self.input_args.items():
+                assert n == len(v), f"Parameter '--{k}' has a different length from that of 'prefix'."
+
+            for i in range(n):
                 run_obj = copy.deepcopy(self)
             
                 for k, v in self.input_args.items():
@@ -142,36 +146,32 @@ class ArgumentsObject():
 
                 run_objs.append(run_obj)
 
-        for  run_obj in run_objs:
+        for run_obj in run_objs:
             run_obj.verify_obj()
             run_obj.set_params_defaults()
 
         return run_objs
 
     def verify_obj(self):
-
-        if "prefix" not in self.params:
-            raise InputError("--prefix is required!")
-
         if "x" not in self.params:
-            raise InputError("-x is required!")
+            raise InputError("--x is required!")
 
-        platform_not_specific = self.common_dict['task'] in ['polish', 'post_assembly'] or (self.common_dict['task'] is 'filter' and self.common_dict['subtask'] in ['map', 'blast', 'contigs'])
+        platform_not_specific = self.common_dict['task'] in ['polish', 'post_assembly'] or (self.common_dict['task'] == 'filter' and self.common_dict['subtask'] in ['map', 'blast', 'contigs'])
         # platform needed
         if not platform_not_specific:
             if "platform" not in self.params:
                 raise InputError("--platform is required!")
 
         # Illumina paired end
-        if not platform_not_specific and self.params['platform'] is "illumina":
+        if not platform_not_specific and self.params['platform'] == "illumina":
                 if "x2" not in self.params:
-                    raise InputError("-x2 is required!")
+                    raise InputError("--x2 is required!")
 
-        if self.common_dict['task'] is 'polish':
+        if self.common_dict['task'] == 'polish':
             if "reads" not in self.params:
                 raise InputError("--reads is missing!")
 
-        if platform_not_specific or self.params['platform'] is "nanopore":
+        if platform_not_specific or self.params['platform'] == "nanopore":
             if "x2" in self.params:
                 warnings.warn("Chosen analysis doesn't need -x2. Given argument will be ignored.")
 
