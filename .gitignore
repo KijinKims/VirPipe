@@ -1,1 +1,4 @@
 src/dist
+src/*.egg-info
+src/build
+src/virpipe/__pycache__

@@ -115,23 +115,24 @@ class Parser:
         shared_parser.add_argument('--file_input', '-f', nargs='?', type=lambda x: parser_path_check(shared_parser, valid_file, x))
         shared_parser.add_argument('--outdir', '-o', nargs='*')
         shared_parser.add_argument('--resume', '-r', action='store_true', default=False)
-        shared_parser.add_argument('--background', '-bg', action='store_true', default=False)
-        shared_parser.add_argument('--nextflow_binary', nargs='?', default='nextflow')
-        shared_parser.add_argument('--nextflow_config', '-c', nargs='?')
         shared_parser.add_argument('--nextflow_modules_dir', nargs='?', default=nxf_script_dir)
+        shared_parser.add_argument('--config', '-c', nargs='?')
+        shared_parser.add_argument('--with-report', nargs='?')
+        shared_parser.add_argument('--with-trace', nargs='?')
+        shared_parser.add_argument('--with-timeline', nargs='?')
 
         platform_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
         platform_parser.add_argument('--platform', nargs='?', choices=['illumina', 'nanopore'], required=True)
 
         input_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
-        input_parser.add_argument('-x', nargs='*', type=lambda x: parser_path_check(input_parser, valid_file, x))
-        input_parser.add_argument('-x2', nargs='*', type=lambda x: parser_path_check(input_parser, valid_fastq, x))
+        input_parser.add_argument('--x', nargs='*', type=lambda x: parser_path_check(input_parser, valid_file, x))
+        input_parser.add_argument('--x2', nargs='*', type=lambda x: parser_path_check(input_parser, valid_fastq, x))
 
         post_assembly_input_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
-        post_assembly_input_parser.add_argument('-x', nargs='*', type=lambda x: parser_path_check(post_assembly_input_parser, valid_fasta, x))
+        post_assembly_input_parser.add_argument('--x', nargs='*', type=lambda x: parser_path_check(post_assembly_input_parser, valid_fasta, x))
 
         general_input_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
-        general_input_parser.add_argument('-x', nargs='*', type=lambda x: parser_path_check(general_input_parser, valid_file, x))
+        general_input_parser.add_argument('--x', nargs='*', type=lambda x: parser_path_check(general_input_parser, valid_file, x))
         
         qc_parser = subparsers.add_parser('qc', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
 
@@ -188,13 +189,12 @@ class Parser:
         report_blast_parser = report_subparsers.add_parser('blast', parents=[shared_parser, general_input_parser], argument_default=argparse.SUPPRESS)
         report_blast_parser.add_argument('--taxonomizr_db', nargs='?', type=lambda x: parser_path_check(report_blast_parser, valid_file, x))
 
-        end_to_end_parser = subparsers.add_parser('end_to_end', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
-        end_to_end_parser.add_argument('--host_genome', nargs='*', type=lambda x: parser_path_check(end_to_end_parser, valid_fasta, x))
-        end_to_end_parser.add_argument('--include_zoonotic_rank', action='store_true', default=True)
-        end_to_end_parser.add_argument('--assembly_tool', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
+        all_parser = subparsers.add_parser('all', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
+        all_parser.add_argument('--host_genome', nargs='*', type=lambda x: parser_path_check(all_parser, valid_fasta, x))
+        all_parser.add_argument('--assembly_tool', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
 
         consensus_parser = subparsers.add_parser('consensus', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
-        consensus_parser.add_argument('--ref', nargs='*', type=lambda x: parser_path_check(consensus_parser, valid_fasta, x))
+        consensus_parser.add_argument('--ref', nargs='*', type=lambda x: parser_path_check(consensus_parser, valid_fasta, x), required=True)
         consensus_parser.add_argument('--low_cov_threshold', nargs='?', type=int)
         consensus_parser.add_argument('--variant_quality_threshold', nargs='?', type=int)
         consensus_parser.add_argument('--variant_depth_threshold', nargs='?', type=int)
@@ -202,4 +202,4 @@ class Parser:
         self.args = parser.parse_args(argv)
 
     def get_args(self):
-        return self.args
+        return vars(self.args)

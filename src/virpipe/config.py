@@ -1,38 +1,4 @@
-sample_specific_args = [
-                        'prefix',
-                        'outdir',
-                        'x',
-                        'x2',
-                        'y',
-                        'host_genome',
-                        'reads',
-                        ]
-
-file_args = [
-            'x',
-            'x2',
-            'y',
-            'host_genome',
-            'reads',
-            ]
-
-not_forwarded_to_nxf_args = [
-                            'nextflow_binary', 
-                            'nextflow_modules_dir',
-                            'include', 
-                            'exclude', 
-                            'task', 
-                            'subtask', 
-                            'program', 
-                            'analysis', 
-                            ]
-
-download_db_list = [
-                    'kraken2-standard', 
-                    'kraken2-viral',
-                    'refseq-viral',
-                    'rvdb', 
-                    'rvdb-prot', 
-                    'taxdump',
-                    'accession2taxid',
-                    ]
+script_args = ['nextflow_modules_dir', 'task', 'subtask', ]
+run_args = ['prefix','outdir','x','x2', 'reads']
+not_params_args = script_args + run_args + ['config', 'profile']
+path_args = ["x", "x2", "ref", "config", "host_genome", "file_ref", "dir_ref", "kraken2_db", "reads", "blast_db_dir", "taxonomizr_db"]

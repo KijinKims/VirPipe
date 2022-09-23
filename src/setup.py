@@ -8,10 +8,7 @@ setuptools.setup(
     description='virpipe',
     packages=['virpipe'],
     install_requires=[
-        'setuptools',
-        'requests',
-        'biopython',
-        'wget',
+        'setuptools'
     ],
     include_package_data=True
 )
