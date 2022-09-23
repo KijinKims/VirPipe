@@ -1,17 +1,17 @@
 nextflow.enable.dsl=2
-include { qc_illumina; qc_nanopore } from '../qc/qc'
-include { filter_reads_illumina; filter_reads_nanopore } from '../filter/reads/filter_reads'
-include { filter_host_illumina; filter_host_nanopore } from '../filter/host/filter_host'
-include { map_illumina; map_nanopore } from '../map/map'
-include { filter_map } from '../filter/map/filter_map'
-include { tax_classify_illumina; tax_classify_nanopore } from '../tax_classify/tax_classify' addParams(tool: 'kraken2')
-include { assembly_illumina; assembly_nanopore } from '../assembly/assembly' addParams(tool: params.assembly_tool)
-include { polish } from '../polish/polish' addParams(tool: 'racon medaka')
-include { filter_contigs } from '../filter/contigs/filter_contigs'
-include { blast } from '../post_assembly/blast/post_assembly_blast' addParams(tool: 'blastn megablast')
-include { filter_blast } from '../filter/blast/filter_blast'
-include { match_taxonomy } from '../report/blast/report_blast'
-include { zoonotic_rank } from '../post_assembly/zoonosis/post_assembly_zoonosis' addParams(tool: 'zoonotic_rank')
+include { qc_illumina; qc_nanopore } from './qc'
+include { filter_reads_illumina; filter_reads_nanopore } from './filter_reads'
+include { filter_host_illumina; filter_host_nanopore } from './filter_host'
+include { map_illumina; map_nanopore } from './map'
+include { filter_map } from './filter_map'
+include { tax_classify_illumina; tax_classify_nanopore } from './tax_classify' addParams(tool: 'kraken2')
+include { assembly_illumina; assembly_nanopore } from './assembly' addParams(tool: params.assembly_tool)
+include { polish } from './polish' addParams(tool: 'racon medaka')
+include { filter_contigs } from './filter_contigs'
+include { blast } from './post_assembly_blast' addParams(tool: 'blastn megablast')
+include { filter_blast } from './filter_blast'
+include { match_taxonomy } from './report_blast'
+include { zoonotic_rank } from './post_assembly_zoonosis' addParams(tool: 'zoonotic_rank')
 
 workflow {
 
