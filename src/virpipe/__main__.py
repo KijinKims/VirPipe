@@ -1,9 +1,9 @@
 import sys
 import subprocess
 
-from virpipe.arguments_parser import Parser
-from virpipe.arguments_object import ArgumentsObject
-from virpipe.nextflow_run import Pipeline
+from .arguments_parser import Parser
+from .arguments_object import ArgumentsObject
+from .nextflow_run import Pipeline
 
 if __name__ == '__main__':
     parser = Parser(sys.argv[1:])

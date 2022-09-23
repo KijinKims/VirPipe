@@ -5,8 +5,14 @@ import csv
 import copy
 from pathlib import Path
 
-from virpipe.defined_errors import InputError
-from virpipe.config import *
+from .config import *
+
+class Error(Exception):
+    pass
+
+class InputError(Error):
+    def __init__(self, message):
+        self.message = message
 
 def file_handle_as_csv_dictreader_object(file_handle):
     _, file_extension = os.path.splitext(file_handle.name)
@@ -38,6 +44,8 @@ class ArgumentsObject():
 
         if 'config' in args_dict:
             self.config = args_dict['config']
+        else:
+            self.config = f"{args_dict['nextflow_modules_dir']}/{'_'.join([args_dict['task']] + [args_dict['subtask']] if 'subtask' in args_dict else [])}.config'"
 
         if 'profile' in args_dict:
             self.profile = args_dict['profile']
