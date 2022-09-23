@@ -115,10 +115,11 @@ class Parser:
         shared_parser.add_argument('--file_input', '-f', nargs='?', type=lambda x: parser_path_check(shared_parser, valid_file, x))
         shared_parser.add_argument('--outdir', '-o', nargs='*')
         shared_parser.add_argument('--resume', '-r', action='store_true', default=False)
-        shared_parser.add_argument('--background', '-bg', action='store_true', default=False)
-        shared_parser.add_argument('--nextflow_binary', nargs='?', default='nextflow')
-        shared_parser.add_argument('--nextflow_config', '-c', nargs='?')
         shared_parser.add_argument('--nextflow_modules_dir', nargs='?', default=nxf_script_dir)
+        shared_parser.add_argument('--config', '-c', nargs='?')
+        shared_parser.add_argument('--with-report', nargs='?')
+        shared_parser.add_argument('--with-trace', '-c', nargs='?')
+        shared_parser.add_argument('--with-timeline', '-c', nargs='?')
 
         platform_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
         platform_parser.add_argument('--platform', nargs='?', choices=['illumina', 'nanopore'], required=True)
@@ -190,7 +191,6 @@ class Parser:
 
         all_parser = subparsers.add_parser('all', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
         all_parser.add_argument('--host_genome', nargs='*', type=lambda x: parser_path_check(all_parser, valid_fasta, x))
-        all_parser.add_argument('--include_zoonotic_rank', action='store_true', default=True)
         all_parser.add_argument('--assembly_tool', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
 
         consensus_parser = subparsers.add_parser('consensus', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
@@ -202,4 +202,4 @@ class Parser:
         self.args = parser.parse_args(argv)
 
     def get_args(self):
-        return self.args
+        return vars(self.args)
