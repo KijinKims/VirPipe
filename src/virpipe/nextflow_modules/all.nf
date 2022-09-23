@@ -24,50 +24,92 @@ workflow {
         }
 
     if (params.platform == 'illumina') {
-        qc_illumina(fastq_pair)
-        filter_reads_illumina(fastq_pair)
 
-        if (params.host_genome != null) {
-            Channel.fromPath(params.host_genome).set{host_genome}
-            filter_completed = filter_host_illumina(filter_reads_illumina.out, host_genome)
-        } else {
-            filter_completed = filter_reads_illumina.out
+        if(!params.skip_qc){
+            qc_illumina(fastq_pair)
         }
 
-        map_illumina(filter_completed)
-        filter_map(map_illumina.out)
+        if(!params.skip_filter_read){
+            reads = filter_reads_illumina(fastq_pair)
+        }
+        else{
+            reads = fastq_pair
+        }
 
-        tax_classify_illumina(filter_completed)
+        if (params.host_genome == null | params.skip_host_genome) {
+            filter_completed = filter_reads_illumina.out
+        } else {
+            Channel.fromPath(params.host_genome).set{host_genome}
+            filter_completed = filter_host_illumina(filter_reads_illumina.out, host_genome)
+        }
 
-        contigs = assembly_illumina(filter_completed)
+        if(!params.skip_map){
+            map_illumina(filter_completed)
+            filter_map(map_illumina.out)
+        }
+
+        if(!params.skip_tax_classify){
+            tax_classify_illumina(filter_completed)
+        }
+
+        if(!params.skip_assembly){
+            contigs = assembly_illumina(filter_completed)
+            filter_contigs(contigs)
+
+            if(!params.skip_blast){
+                blast(filter_contigs.out)
+                filter_blast(blast.out)
+                match_taxonomy(filter_blast.out)
+            }
+
+            if(!params.skip_zoonosis){
+                zoonotic_rank(filter_contigs.out)
+            }
+        }
 
     } else if (params.platform == 'nanopore') {
         
-        qc_nanopore(fastx)
-        filter_reads_nanopore(fastx)
+        if(!params.skip_qc){
+            qc_nanopore(fastx)
+        }
 
-        if (params.host_genome) {
+        if(!params.skip_filter_read){
+            reads = filter_reads_nanopore(fastx)
+        }
+        else{
+            reads = fastq_pair
+        }
+
+        if (params.host_genome == null | params.skip_host_genome) {
+            filter_completed = filter_reads_nanopore.out
+        } else {
             Channel.fromPath(params.host_genome).set{host_genome}
             filter_completed = filter_host_nanopore(filter_reads_nanopore.out, host_genome)
-        } else {
-            filter_completed = filter_reads_nanopore.out
         }
 
-        map_nanopore(filter_completed)
-        filter_map(map_nanopore.out)
-
-        tax_classify_nanopore(filter_completed)
-
-        contigs = assembly_nanopore(filter_completed)
+        if(!params.skip_map){
+            map_nanopore(filter_completed)
+            filter_map(map_nanopore.out)
         }
-    
-    filter_contigs(contigs)
 
-    blast(filter_contigs.out)
-    filter_blast(blast.out)
-    match_taxonomy(filter_blast.out)
+        if(!params.skip_tax_classify){
+            tax_classify_nanopore(filter_completed)
+        }
 
-    if(params.include_zoonotic_rank){
-        zoonotic_rank(filter_contigs.out)
+        if(!params.skip_assembly){
+            contigs = assembly_nanopore(filter_completed)
+            filter_contigs(contigs)
+            if(!params.skip_blast){
+                blast(filter_contigs.out)
+                filter_blast(blast.out)
+                match_taxonomy(filter_blast.out)
+            }
+
+            if(!params.skip_zoonosis){
+                zoonotic_rank(filter_contigs.out)
+            }
+        }
     }
+    
+
 }

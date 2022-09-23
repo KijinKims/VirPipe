@@ -45,12 +45,17 @@ class ArgumentsObject():
         if 'config' in args_dict:
             self.config = args_dict['config']
         else:
-            self.config = f"{args_dict['nextflow_modules_dir']}/{'_'.join([args_dict['task']] + ([args_dict['subtask']] if 'subtask' in args_dict else []))}.config'"
+            self.config = f"{args_dict['nextflow_modules_dir']}/{'_'.join([args_dict['task']] + ([args_dict['subtask']] if 'subtask' in args_dict else []))}.config"
 
         if 'profile' in args_dict:
             self.profile = args_dict['profile']
         else:
             self.profile = None
+
+        if 'resume' in args_dict:
+            self.resume = args_dict['resume']
+        else:
+            self.resume = None
 
         self.params = {}
         for k, v in args_dict.items():
@@ -125,11 +130,11 @@ class ArgumentsObject():
             run_obj = copy.deepcopy(self)
             run_objs += self.parse_file_input(run_obj)
 
-        if 'prefix' in self.input_args:
+        if not run_objs:
+            if 'prefix' not in self.input_args:
+                raise InputError("Either --file_input or --prefix is required!")
 
             n = len(self.input_args['prefix'])
-            if n == 0:
-                raise InputError("--prefix is required!")
 
             for k, v in self.input_args.items():
                 assert n == len(v), f"Parameter '--{k}' has a different length from that of 'prefix'."
@@ -169,7 +174,7 @@ class ArgumentsObject():
 
         if platform_not_specific or self.params['platform'] == "nanopore":
             if "x2" in self.params:
-                warnings.warn("Chosen analysis doesn't need -x2. Given argument will be ignored.")
+                warnings.warn("Chosen analysis doesn't need --x2. Given argument will be ignored.")
 
         for k, v in self.params.items():
             # resolve relative path

@@ -194,7 +194,7 @@ class Parser:
         all_parser.add_argument('--assembly_tool', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
 
         consensus_parser = subparsers.add_parser('consensus', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
-        consensus_parser.add_argument('--ref', nargs='*', type=lambda x: parser_path_check(consensus_parser, valid_fasta, x))
+        consensus_parser.add_argument('--ref', nargs='*', type=lambda x: parser_path_check(consensus_parser, valid_fasta, x), required=True)
         consensus_parser.add_argument('--low_cov_threshold', nargs='?', type=int)
         consensus_parser.add_argument('--variant_quality_threshold', nargs='?', type=int)
         consensus_parser.add_argument('--variant_depth_threshold', nargs='?', type=int)

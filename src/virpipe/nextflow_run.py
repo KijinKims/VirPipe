@@ -14,7 +14,10 @@ class Pipeline():
             if type(self.run_obj.profile) == list:
                 cmd += f"-profile {','.join(self.run_obj.profile)} "
             else:
-                cmd += f"-profile {self.run_obj.profile}" 
+                cmd += f"-profile {self.run_obj.profile} "
+
+        if self.run_obj.resume:
+            cmd += f"-resume "
 
         for param, value in self.run_obj.params.items():
             if type(value) == list:
@@ -30,5 +33,4 @@ class Pipeline():
 
     def run(self):
         command_string = self.generate_command()
-        print(command_string)
-        #subprocess.run(command_string, shell=True, check=True)
+        subprocess.run(command_string, shell=True, check=True)
