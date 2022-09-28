@@ -112,10 +112,10 @@ class Parser:
 
         shared_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
         shared_parser.add_argument('--prefix', '-p', nargs='*')
-        shared_parser.add_argument('--file_input', '-f', nargs='?', type=lambda x: parser_path_check(shared_parser, valid_file, x))
+        shared_parser.add_argument('--file-input', '-f', nargs='?', type=lambda x: parser_path_check(shared_parser, valid_file, x))
         shared_parser.add_argument('--outdir', '-o', nargs='*')
         shared_parser.add_argument('--resume', '-r', action='store_true', default=False)
-        shared_parser.add_argument('--nextflow_modules_dir', nargs='?', default=nxf_script_dir)
+        shared_parser.add_argument('--nextflow-modules-dir', nargs='?', default=nxf_script_dir)
         shared_parser.add_argument('--config', '-c', nargs='?')
         shared_parser.add_argument('--with-report', nargs='?')
         shared_parser.add_argument('--with-trace', nargs='?')
@@ -140,30 +140,30 @@ class Parser:
         filter_subparsers = filter_parser.add_subparsers(dest='subtask', title='subtasks', description='valid subtasks', required=True)
         
         filter_reads_parser = filter_subparsers.add_parser('reads', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
-        filter_reads_parser.add_argument('--illumina_min_read_quality', '-iq', nargs='?', type=int)
-        filter_reads_parser.add_argument('--nanopore_min_read_quality', '-nq', nargs='?', type=int)
-        filter_reads_parser.add_argument('--nanopore_min_read_length', '-nl', nargs='?', type=int)
+        filter_reads_parser.add_argument('--illumina-min-read-quality', '-iq', nargs='?', type=int)
+        filter_reads_parser.add_argument('--nanopore-min-read-quality', '-nq', nargs='?', type=int)
+        filter_reads_parser.add_argument('--nanopore-min-read-length', '-nl', nargs='?', type=int)
         
         filter_host_parser = filter_subparsers.add_parser('host', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
-        filter_host_parser.add_argument('--host_genome', nargs='*', type=lambda x: parser_path_check(filter_host_parser, valid_fasta, x))
+        filter_host_parser.add_argument('--host-genome', nargs='*', type=lambda x: parser_path_check(filter_host_parser, valid_fasta, x))
 
         filter_map_parser = filter_subparsers.add_parser('map', parents=[shared_parser, general_input_parser], argument_default=argparse.SUPPRESS)
-        filter_map_parser.add_argument('--min_map_out_avg_dep', '-dep', nargs='?', type=float)
+        filter_map_parser.add_argument('--min-map-out-avg-dep', '-dep', nargs='?', type=float)
 
         filter_contigs_parser = filter_subparsers.add_parser('contigs', parents=[shared_parser, post_assembly_input_parser], argument_default=argparse.SUPPRESS)
-        filter_contigs_parser.add_argument('--min_contig_length', '-l', nargs='?', type=float)
+        filter_contigs_parser.add_argument('--min-contig-length', '-l', nargs='?', type=float)
         
         filter_blast_parser = filter_subparsers.add_parser('blast', parents=[shared_parser, general_input_parser], argument_default=argparse.SUPPRESS)
-        filter_blast_parser.add_argument('--min_blast_aln_len', nargs='?', type=float)
+        filter_blast_parser.add_argument('--min-blast-aln-len', nargs='?', type=float)
 
         map_parser = subparsers.add_parser('map', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
         map_parser.add_argument('--ref', nargs='*', type=lambda x: parser_path_check(map_parser, valid_fasta, x))
-        map_parser.add_argument('--file_ref', '-fr', nargs='?', type=lambda x: parser_path_check(map_parser, valid_fasta_list, x))
-        map_parser.add_argument('--dir_ref', '-dr', nargs='?', type=lambda x: parser_path_check(map_parser, valid_dir, x))
+        map_parser.add_argument('--file-ref', '-fr', nargs='?', type=lambda x: parser_path_check(map_parser, valid_fasta_list, x))
+        map_parser.add_argument('--dir-ref', '-dr', nargs='?', type=lambda x: parser_path_check(map_parser, valid_dir, x))
 
         tax_classify_parser = subparsers.add_parser('tax_classify', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
         tax_classify_parser.add_argument('--tool', '-t', nargs='*', choices=['kraken2'], default=['kraken2'])
-        tax_classify_parser.add_argument('--kraken2_db', nargs='?', type=lambda x: parser_path_check(tax_classify_parser, valid_dir, x))
+        tax_classify_parser.add_argument('--kraken2-db', nargs='?', type=lambda x: parser_path_check(tax_classify_parser, valid_dir, x))
 
         assembly_parser = subparsers.add_parser('assembly', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
         assembly_parser.add_argument('--tool', '-t', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
@@ -177,8 +177,8 @@ class Parser:
 
         blast_parser = post_assembly_subparsers.add_parser('blast', parents=[shared_parser, post_assembly_input_parser], argument_default=argparse.SUPPRESS)
         blast_parser.add_argument('--tool', '-t', nargs='*', choices=['blastn' ,'megablast'], default=['blastn' ,'megablast'])
-        blast_parser.add_argument('--blast_db_dir', '-d', nargs='?', type=lambda x: parser_path_check(blast_parser, valid_dir, x))
-        blast_parser.add_argument('--blast_db_name', '-n', nargs='?')
+        blast_parser.add_argument('--blast-db-dir', '-d', nargs='?', type=lambda x: parser_path_check(blast_parser, valid_dir, x))
+        blast_parser.add_argument('--blast-db-name', '-n', nargs='?')
 
         zoonosis_parser = post_assembly_subparsers.add_parser('zoonosis', parents=[shared_parser, post_assembly_input_parser], argument_default=argparse.SUPPRESS)
         zoonosis_parser.add_argument('--tool', '-t', nargs='*', choices=['zoonotic_rank'], default='zoonotic_rank')
@@ -187,17 +187,25 @@ class Parser:
         report_subparsers = report_parser.add_subparsers(dest='subtask', title='subtasks', description='valid subtasks', required=True)
 
         report_blast_parser = report_subparsers.add_parser('blast', parents=[shared_parser, general_input_parser], argument_default=argparse.SUPPRESS)
-        report_blast_parser.add_argument('--taxonomizr_db', nargs='?', type=lambda x: parser_path_check(report_blast_parser, valid_file, x))
+        report_blast_parser.add_argument('--taxonomizr-db', nargs='?', type=lambda x: parser_path_check(report_blast_parser, valid_file, x))
 
         all_parser = subparsers.add_parser('all', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
-        all_parser.add_argument('--host_genome', nargs='*', type=lambda x: parser_path_check(all_parser, valid_fasta, x))
-        all_parser.add_argument('--assembly_tool', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
-
+        all_parser.add_argument('--host-genome', nargs='*', type=lambda x: parser_path_check(all_parser, valid_fasta, x))
+        all_parser.add_argument('--assembly-tool', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
+        all_parser.add_argument('--skip-qc', action='store_true', default=False)
+        all_parser.add_argument('--skip-filter-read', action='store_true', default=False)
+        all_parser.add_argument('--skip-host-genome', action='store_true', default=False)
+        all_parser.add_argument('--skip-map', action='store_true', default=False)
+        all_parser.add_argument('--skip-tax-classify', action='store_true', default=False)
+        all_parser.add_argument('--skip-assembly', action='store_true', default=False)
+        all_parser.add_argument('--skip-blast', action='store_true', default=False)
+        all_parser.add_argument('--skip-zoonosis', action='store_true', default=False)
+    
         consensus_parser = subparsers.add_parser('consensus', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
         consensus_parser.add_argument('--ref', nargs='*', type=lambda x: parser_path_check(consensus_parser, valid_fasta, x), required=True)
-        consensus_parser.add_argument('--low_cov_threshold', nargs='?', type=int)
-        consensus_parser.add_argument('--variant_quality_threshold', nargs='?', type=int)
-        consensus_parser.add_argument('--variant_depth_threshold', nargs='?', type=int)
+        consensus_parser.add_argument('--low-cov-threshold', nargs='?', type=int)
+        consensus_parser.add_argument('--variant-quality-threshold', nargs='?', type=int)
+        consensus_parser.add_argument('--variant-depth-threshold', nargs='?', type=int)
 
         self.args = parser.parse_args(argv)
 
