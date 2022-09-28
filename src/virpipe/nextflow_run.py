@@ -20,7 +20,9 @@ class Pipeline():
             cmd += f"-resume "
 
         for param, value in self.run_obj.params.items():
-            if type(value) == list:
+            if param in ["with_report", "with_trace", "with_timeline"]:
+                cmd += f"-{param.replace('_','-')} {self.run_obj.params['outdir']}/{value} "
+            elif type(value) == list:
                 cmd += f"--{param} {' '.join(value)} "
             elif type(value) == bool:
                 if value:
@@ -33,4 +35,5 @@ class Pipeline():
 
     def run(self):
         command_string = self.generate_command()
+        print(command_string)
         subprocess.run(command_string, shell=True, check=True)

@@ -23,6 +23,7 @@ workflow filter_reads_illumina {
         decompress_pair(fastq_pair)
         filter_illumina(decompress_pair.out)
         filtered = trim_illumina(filter_illumina.out)
+        summary_illumina(decompress_pair.out, filtered)
 }
 
 workflow filter_reads_nanopore {
@@ -33,6 +34,7 @@ workflow filter_reads_nanopore {
     main:
         decompress_single(fastx)
         filtered = filter_nanopore(decompress_single.out)
+        summary_nanopore(decompress_single.out, filtered)
 }
 
 process decompress_pair {
@@ -114,5 +116,55 @@ process filter_nanopore {
         path("${params.prefix}.filtered.${single.extension}")
     """
     NanoFilt --length ${params.nanopore_min_read_length} --readtype 1D --quality ${params.nanopore_min_read_quality} $single > ${params.prefix}.filtered.${single.extension}
+    """
+}
+
+process summary_illumina {
+    tag "${params.prefix}:filter_reads_summary_illumina"
+    publishDir path: "$params.outdir/filter", mode: 'copy'
+    input:
+        tuple path(prefilter_reads_1), path(prefilter_reads_2) 
+        tuple path(postfilter_reads_1), path(postfilter_reads_2) 
+    output:
+        path "filter_reads_summary.txt"
+    """
+    echo "#min_qual=$params.illumina_min_read_quality" >> filter_reads_summary.txt
+    echo "file\tpre\tpost"  >> filter_reads_summary.txt
+
+    pre_1=\$(bc <<< \$(cat $prefilter_reads_1 | wc -l)/4)
+    post_1=\$(bc <<< \$(cat $postfilter_reads_1 | wc -l)/4)
+    line_1="pe1\t"
+    line_1+="\$pre_1\t"
+    line_1+="\$post_1"
+    echo \$line_1 >> filter_reads_summary.txt
+
+    pre_2=\$(bc <<< \$(cat $prefilter_reads_2 | wc -l)/4)
+    post_2=\$(bc <<< \$(cat $postfilter_reads_2 | wc -l)/4)
+    line_2="pe1\t"
+    line_2+="\$pre_2\t"
+    line_2+="\$post_2"
+    echo \$line_2 >> filter_reads_summary.txt
+    """
+}
+
+process summary_nanopore {
+    tag "${params.prefix}:filter_reads_summary_nanopore"
+    publishDir path: "$params.outdir/filter", mode: 'copy'
+    input:
+        path prefilter_reads
+        path postfilter_reads
+    output:
+        path "filter_reads_summary.txt"
+    """
+    echo "#min_qual=$params.nanopore_min_read_quality" >> filter_reads_summary.txt
+    echo "#min_len=$params.nanopore_min_read_length" >> filter_reads_summary.txt
+    echo "file\tpre\tpost"  >> filter_reads_summary.txt
+
+    pre=\$(bc <<< \$(cat $prefilter_reads | wc -l)/4)
+    post=\$(bc <<< \$(cat $postfilter_reads | wc -l)/4)
+    line="single\t"
+    line+="\$pre\t"
+    line+="\$post"
+    echo \$line >> filter_reads_summary.txt
     """
 }
