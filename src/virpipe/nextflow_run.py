@@ -35,5 +35,5 @@ class Pipeline():
 
     def run(self):
         command_string = self.generate_command()
-        print(command_string)
+        #print(command_string)
         subprocess.run(command_string, shell=True, check=True)
