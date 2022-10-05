@@ -98,7 +98,7 @@ def parser_path_check(parser, func, path):
 class Parser:
     def __init__(self, argv):
 
-        nxf_script_dir = str(PurePath(os.path.dirname(os.path.realpath(__file__)), "nextflow_modules"))
+        nxf_script_dir = str(PurePath(os.path.dirname(os.path.realpath(__file__)), "modules"))
 
         if os.environ.get('VP_DB'):
             pkgs_dir = os.environ.get('VP_DB')
@@ -115,7 +115,7 @@ class Parser:
         shared_parser.add_argument('--file-input', '-f', nargs='?', type=lambda x: parser_path_check(shared_parser, valid_file, x))
         shared_parser.add_argument('--outdir', '-o', nargs='*')
         shared_parser.add_argument('--resume', '-r', action='store_true', default=False)
-        shared_parser.add_argument('--nextflow-modules-dir', nargs='?', default=nxf_script_dir)
+        shared_parser.add_argument('--modules-dir', nargs='?', default=nxf_script_dir)
         shared_parser.add_argument('--config', '-c', nargs='?')
         shared_parser.add_argument('--with-report', nargs='?')
         shared_parser.add_argument('--with-trace', nargs='?')

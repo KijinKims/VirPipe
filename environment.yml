@@ -1,6 +1,11 @@
 name: virpipe
+channels:
+  - conda-forge
 dependencies:
   - python>=3.7
   - pip
   - nextflow
-  
+  - r-base
+  - r-argparser
+  - r-rmarkdown
+  - r-knitr 

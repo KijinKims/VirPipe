@@ -14,6 +14,8 @@ p <- arg_parser("Virpipe summary report generating script")
 
 p <- add_argument(p, "--prefix", help="Sample prefix")
 
+p <- add_argument(p, "--outdir", help="Output directory")
+
 p <- add_argument(p, "--markdown", help="Rmarkdown template path")
 
 p <- add_argument(p, "--qc_html", help="QC html file path")
@@ -40,10 +42,11 @@ p <- add_argument(p, "--zoonotic_rank_predictions", help="Zoonotic rank result p
 # if options not found on command line then set defaults automatically generated with prefix, 
 args <- parse_args(p)
 prefix <- args$prefix
+outdir <- args$outdir
 
 # qc data
 if(is.na(args$qc_html)){
-  qc_link <- paste(prefix, "/qc/", prefix, ".qc.html", sep="")
+  qc_link <- paste(outdir, "/qc/", prefix, ".qc.html", sep="")
 } else{
   qc_link <- args$qc_html
 }
@@ -51,57 +54,57 @@ if(is.na(args$qc_html)){
 # reference map data
 
 if(is.na(args$map_summary)){
-  map_summary_file <- paste(prefix, "/map/", prefix, ".map.filtered.tsv", sep="")
+  map_summary_file <- paste(outdir, "/map/", prefix, ".map.filtered.tsv", sep="")
 } else{
   map_summary_file <- args$map_summary
 }
 
 if(is.na(args$tax_classify_directory)){
-  tax_classify_directory <- paste(prefix, "/tax_classify/", sep = "")
+  tax_classify_directory <- paste(outdir, "/tax_classify/", sep = "")
 } else{
   tax_classify_directory <- args$tax_classify_directory
 }
 
 if(is.na(args$tax_classify_kraken_html)){
-  tax_classify_kraken_link <- paste(prefix, "/tax_classify/", prefix, ".kraken.html", sep = "")
+  tax_classify_kraken_link <- paste(outdir, "/tax_classify/", prefix, ".kraken.html", sep = "")
 } else{
   tax_classify_kraken_link <- args$tax_classify_kraken_html
 }
 
 if(is.na(args$assembly_directory)){
-  assembly_directory <- paste(prefix, "/assembly/", sep = "")
+  assembly_directory <- paste(outdir, "/assembly/", sep = "")
 } else{
   assembly_directory <- args$assembly_directory
 }
 
 # blast data
 if(is.na(args$blastn_table)){
-  blast_blastn_file <- paste(prefix, "/post_assembly/blast/", prefix, ".blastn.filtered.txt", sep="")
+  blast_blastn_file <- paste(outdir, "/post_assembly/blast/", prefix, ".blastn.filtered.txt", sep="")
 } else{
   blast_blastn_file <- args$blastn_table
 }
 
 if(is.na(args$blastn_html)){
-  blastn_html_link <- paste(prefix, "/post_assembly/blast/", prefix, ".blastn.filtered.html", sep="")
+  blastn_html_link <- paste(outdir, "/post_assembly/blast/", prefix, ".blastn.filtered.html", sep="")
 } else{
   blastn_html_link <- args$blastn_html
 }
 
 if(is.na(args$megablast_table)){
-  blast_megablast_file <- paste(prefix, "/post_assembly/blast/", prefix, ".megablast.filtered.txt", sep="")
+  blast_megablast_file <- paste(outdir, "/post_assembly/blast/", prefix, ".megablast.filtered.txt", sep="")
 } else{
   blast_megablast_file <- args$megablast_table
 }
 
 if(is.na(args$megablast_html)){
-  megablast_html_link <- paste(prefix, "/post_assembly/blast/", prefix, ".megablast.filtered.html", sep="")
+  megablast_html_link <- paste(outdir, "/post_assembly/blast/", prefix, ".megablast.filtered.html", sep="")
 } else{
   megablast_html_link <- args$megablast_html
 }
 
 # zoonotic rank data
 if(is.na(args$zoonotic_rank_predictions)){
-  zoonotic_rank_predictions_file <- paste(prefix, "/post_assembly/zoonotic_rank/", prefix, ".predictions.csv", sep="")
+  zoonotic_rank_predictions_file <- paste(outdir, "/post_assembly/zoonotic_rank/", prefix, ".predictions.csv", sep="")
 } else{
   zoonotic_rank_predictions_file <- args$zoonotic_rank_predictions
 }
@@ -109,9 +112,10 @@ if(is.na(args$zoonotic_rank_predictions)){
 rmd_template_file <- args$markdown
 render(rmd_template_file,
       output_file=paste(prefix,".virpipe_summary", sep = ""),
-      output_dir='.',
+      output_dir=outdir,
       knit_root_dir=getwd(),
       params=list(prefix=prefix,
+                  outdir=outdir,
                   qc_link=qc_link, 
                   map_summary_file=map_summary_file,
                   tax_classify_directory=tax_classify_directory,

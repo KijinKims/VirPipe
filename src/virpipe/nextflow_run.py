@@ -32,8 +32,15 @@ class Pipeline():
 
         return cmd
 
+    def generate_summary_command(self):
+        cmd = f"Rscript {self.run_obj.summary_script} --markdown {self.run_obj.summary_markdown} --outdir {self.run_obj.params['outdir']} --prefix {self.run_obj.params['prefix']}"
+        return cmd
 
     def run(self):
         command_string = self.generate_command()
         #print(command_string)
+        subprocess.run(command_string, shell=True, check=True)
+
+    def summary_run(self):
+        command_string = self.generate_summary_command()
         subprocess.run(command_string, shell=True, check=True)

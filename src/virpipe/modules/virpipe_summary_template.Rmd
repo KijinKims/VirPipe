@@ -4,6 +4,7 @@ output: html_document
 params:
   version: "v1.0"
   prefix: ""
+  outdir: ""
   qc_link: ""
   map_summary_file: ""
   tax_classify_directory: ""

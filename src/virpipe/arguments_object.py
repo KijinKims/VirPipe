@@ -39,13 +39,13 @@ class ArgumentsObject():
 
         self.common_dict = args_dict
 
-        nxf_script = f"{args_dict['nextflow_modules_dir']}/{'_'.join([args_dict['task']] + ([args_dict['subtask']] if 'subtask' in args_dict else []))}.nf"
+        nxf_script = f"{args_dict['modules_dir']}/{'_'.join([args_dict['task']] + ([args_dict['subtask']] if 'subtask' in args_dict else []))}.nf"
         self.nxf_script = nxf_script
 
         if 'config' in args_dict:
             self.config = args_dict['config']
         else:
-            self.config = f"{args_dict['nextflow_modules_dir']}/{'_'.join([args_dict['task']] + ([args_dict['subtask']] if 'subtask' in args_dict else []))}.config"
+            self.config = f"{args_dict['modules_dir']}/{'_'.join([args_dict['task']] + ([args_dict['subtask']] if 'subtask' in args_dict else []))}.config"
 
         if 'profile' in args_dict:
             self.profile = args_dict['profile']
@@ -68,6 +68,9 @@ class ArgumentsObject():
                 self.input_args[k] = v
 
         self.file_input = args_dict['file_input'] if 'file_input' in args_dict else ''
+
+        self.summary_script = f"{args_dict['modules_dir']}/virpipe_summary_script.R"
+        self.summary_markdown = f"{args_dict['modules_dir']}/virpipe_summary_template.Rmd"
         
     def add_param_to_params(self, key, value):
         if key in self.params:
