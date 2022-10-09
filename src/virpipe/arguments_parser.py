@@ -145,7 +145,7 @@ class Parser:
         filter_reads_parser.add_argument('--nanopore-min-read-length', '-nl', nargs='?', type=int)
         
         filter_host_parser = filter_subparsers.add_parser('host', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
-        filter_host_parser.add_argument('--host-genome', nargs='*', type=lambda x: parser_path_check(filter_host_parser, valid_fasta, x))
+        filter_host_parser.add_argument('--host-genome', nargs='*', type=lambda x: parser_path_check(filter_host_parser, valid_fasta, x), required=True)
 
         filter_map_parser = filter_subparsers.add_parser('map', parents=[shared_parser, general_input_parser], argument_default=argparse.SUPPRESS)
         filter_map_parser.add_argument('--min-map-out-avg-dep', '-dep', nargs='?', type=float)
