@@ -13,4 +13,5 @@ if __name__ == '__main__':
 
     for run_obj in run_objs:
         pipeline = Pipeline(run_obj)
-        execution = pipeline.run()
+        pipeline.run()
+        pipeline.summary_run()

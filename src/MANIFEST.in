@@ -1,1 +1,1 @@
-recursive-include virpipe/nextflow_modules *
+recursive-include virpipe/modules *
