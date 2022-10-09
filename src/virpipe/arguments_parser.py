@@ -107,7 +107,7 @@ class Parser:
             os.environ['VP_DB'] = pkgs_dir
         
 
-        parser = argparse.ArgumentParser(prog='virpipe', description='%(prog)s is a command line program for detection and analysis of Bunyavirus sequence.')
+        parser = argparse.ArgumentParser(prog='virpipe', description='%(prog)s is a command line program for detection and analysis of virus sequence from sequencing read input.')
         subparsers = parser.add_subparsers(dest='task', required=True, title='tasks', description='valid tasks')
 
         shared_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
