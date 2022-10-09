@@ -22,7 +22,7 @@ workflow filter_blast {
 process filter_blast_process {
     tag "${params.prefix}:filter_blast_process"
 
-    publishDir "${params.outdir}/post_assembly/blast", mode: 'copy' 
+    publishDir "${params.outdir}/postassembly/blast", mode: 'copy' 
 
     input:
         path blast_out

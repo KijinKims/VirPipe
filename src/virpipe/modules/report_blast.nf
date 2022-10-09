@@ -18,7 +18,7 @@ workflow match_taxonomy {
 process match_taxonomy_process {
     tag "${params.prefix}:match_taxonomy"
 
-    publishDir "${params.outdir}/post_assembly/blast", mode: 'copy'
+    publishDir "${params.outdir}/postassembly/blast", mode: 'copy'
 
     input:
         tuple path(blast_out), path(taxonomizr_db)

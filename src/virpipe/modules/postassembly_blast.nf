@@ -34,7 +34,7 @@ workflow blast {
 process blastn {
     tag "${params.prefix}:blastn"
 
-    publishDir "${params.outdir}/post_assembly/blast", mode: 'copy'
+    publishDir "${params.outdir}/postassembly/blast", mode: 'copy'
 
     input:
         path contigs
@@ -51,7 +51,7 @@ process blastn {
 process megablast {
     tag "${params.prefix}:megablast"
 
-    publishDir "${params.outdir}/post_assembly/blast", mode: 'copy'
+    publishDir "${params.outdir}/postassembly/blast", mode: 'copy'
 
     input:
         path contigs

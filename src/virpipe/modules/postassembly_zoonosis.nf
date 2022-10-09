@@ -44,7 +44,7 @@ process prodigal_sco_to_zoonotic_rank_metadata {
 process zoonotic_rank_run {
     tag "${params.prefix}:zoonotic_rank_run"
 
-    publishDir "${params.outdir}/post_assembly/zoonotic_rank", mode: 'copy'
+    publishDir "${params.outdir}/postassembly/zoonotic_rank", mode: 'copy'
 
     input:
         path contigs

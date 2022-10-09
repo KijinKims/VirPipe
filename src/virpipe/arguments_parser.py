@@ -128,8 +128,8 @@ class Parser:
         input_parser.add_argument('--x', nargs='*', type=lambda x: parser_path_check(input_parser, valid_file, x))
         input_parser.add_argument('--x2', nargs='*', type=lambda x: parser_path_check(input_parser, valid_fastq, x))
 
-        post_assembly_input_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
-        post_assembly_input_parser.add_argument('--x', nargs='*', type=lambda x: parser_path_check(post_assembly_input_parser, valid_fasta, x))
+        postassembly_input_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
+        postassembly_input_parser.add_argument('--x', nargs='*', type=lambda x: parser_path_check(postassembly_input_parser, valid_fasta, x))
 
         general_input_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
         general_input_parser.add_argument('--x', nargs='*', type=lambda x: parser_path_check(general_input_parser, valid_file, x))
@@ -150,7 +150,7 @@ class Parser:
         filter_map_parser = filter_subparsers.add_parser('map', parents=[shared_parser, general_input_parser], argument_default=argparse.SUPPRESS)
         filter_map_parser.add_argument('--min-map-out-avg-dep', '-dep', nargs='?', type=float)
 
-        filter_contigs_parser = filter_subparsers.add_parser('contigs', parents=[shared_parser, post_assembly_input_parser], argument_default=argparse.SUPPRESS)
+        filter_contigs_parser = filter_subparsers.add_parser('contigs', parents=[shared_parser, postassembly_input_parser], argument_default=argparse.SUPPRESS)
         filter_contigs_parser.add_argument('--min-contig-length', '-l', nargs='?', type=float)
         
         filter_blast_parser = filter_subparsers.add_parser('blast', parents=[shared_parser, general_input_parser], argument_default=argparse.SUPPRESS)
@@ -168,19 +168,19 @@ class Parser:
         assembly_parser = subparsers.add_parser('assembly', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
         assembly_parser.add_argument('--tool', '-t', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
 
-        polish_parser = subparsers.add_parser('polish', parents=[shared_parser, post_assembly_input_parser], argument_default=argparse.SUPPRESS)
+        polish_parser = subparsers.add_parser('polish', parents=[shared_parser, postassembly_input_parser], argument_default=argparse.SUPPRESS)
         polish_parser.add_argument('--tool', '-t', nargs='*', choices=['racon', 'medaka'], default=['racon', 'medaka'])
         polish_parser.add_argument('--reads', nargs='*', type=lambda x: parser_path_check(polish_parser, valid_fastx, x))
 
-        post_assembly_parser = subparsers.add_parser('post_assembly')
-        post_assembly_subparsers = post_assembly_parser.add_subparsers(dest='subtask', title='subtasks', description='valid subtasks', required=True)
+        postassembly_parser = subparsers.add_parser('postassembly')
+        postassembly_subparsers = postassembly_parser.add_subparsers(dest='subtask', title='subtasks', description='valid subtasks', required=True)
 
-        blast_parser = post_assembly_subparsers.add_parser('blast', parents=[shared_parser, post_assembly_input_parser], argument_default=argparse.SUPPRESS)
+        blast_parser = postassembly_subparsers.add_parser('blast', parents=[shared_parser, postassembly_input_parser], argument_default=argparse.SUPPRESS)
         blast_parser.add_argument('--tool', '-t', nargs='*', choices=['blastn' ,'megablast'], default=['blastn' ,'megablast'])
         blast_parser.add_argument('--blast-db-dir', '-d', nargs='?', type=lambda x: parser_path_check(blast_parser, valid_dir, x))
         blast_parser.add_argument('--blast-db-name', '-n', nargs='?')
 
-        zoonosis_parser = post_assembly_subparsers.add_parser('zoonosis', parents=[shared_parser, post_assembly_input_parser], argument_default=argparse.SUPPRESS)
+        zoonosis_parser = postassembly_subparsers.add_parser('zoonosis', parents=[shared_parser, postassembly_input_parser], argument_default=argparse.SUPPRESS)
         zoonosis_parser.add_argument('--tool', '-t', nargs='*', choices=['zoonotic_rank'], default='zoonotic_rank')
 
         report_parser = subparsers.add_parser('report')

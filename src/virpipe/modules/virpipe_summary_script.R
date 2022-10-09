@@ -79,32 +79,32 @@ if(is.na(args$assembly_directory)){
 
 # blast data
 if(is.na(args$blastn_table)){
-  blast_blastn_file <- paste(outdir, "/post_assembly/blast/", prefix, ".blastn.filtered.txt", sep="")
+  blast_blastn_file <- paste(outdir, "/postassembly/blast/", prefix, ".blastn.filtered.txt", sep="")
 } else{
   blast_blastn_file <- args$blastn_table
 }
 
 if(is.na(args$blastn_html)){
-  blastn_html_link <- paste(outdir, "/post_assembly/blast/", prefix, ".blastn.filtered.html", sep="")
+  blastn_html_link <- paste(outdir, "/postassembly/blast/", prefix, ".blastn.filtered.html", sep="")
 } else{
   blastn_html_link <- args$blastn_html
 }
 
 if(is.na(args$megablast_table)){
-  blast_megablast_file <- paste(outdir, "/post_assembly/blast/", prefix, ".megablast.filtered.txt", sep="")
+  blast_megablast_file <- paste(outdir, "/postassembly/blast/", prefix, ".megablast.filtered.txt", sep="")
 } else{
   blast_megablast_file <- args$megablast_table
 }
 
 if(is.na(args$megablast_html)){
-  megablast_html_link <- paste(outdir, "/post_assembly/blast/", prefix, ".megablast.filtered.html", sep="")
+  megablast_html_link <- paste(outdir, "/postassembly/blast/", prefix, ".megablast.filtered.html", sep="")
 } else{
   megablast_html_link <- args$megablast_html
 }
 
 # zoonotic rank data
 if(is.na(args$zoonotic_rank_predictions)){
-  zoonotic_rank_predictions_file <- paste(outdir, "/post_assembly/zoonotic_rank/", prefix, ".predictions.csv", sep="")
+  zoonotic_rank_predictions_file <- paste(outdir, "/postassembly/zoonotic_rank/", prefix, ".predictions.csv", sep="")
 } else{
   zoonotic_rank_predictions_file <- args$zoonotic_rank_predictions
 }

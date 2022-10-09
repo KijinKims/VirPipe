@@ -8,10 +8,10 @@ include { taxclassify_illumina; taxclassify_nanopore } from './taxclassify' addP
 include { assembly_illumina; assembly_nanopore } from './assembly' addParams(tool: params.assembly_tool)
 include { polish } from './polish' addParams(tool: 'racon medaka')
 include { filter_contigs } from './filter_contigs'
-include { blast } from './post_assembly_blast' addParams(tool: 'blastn megablast')
+include { blast } from './postassembly_blast' addParams(tool: 'blastn megablast')
 include { filter_blast } from './filter_blast'
 include { match_taxonomy } from './report_blast'
-include { zoonotic_rank } from './post_assembly_zoonosis' addParams(tool: 'zoonotic_rank')
+include { zoonotic_rank } from './postassembly_zoonosis' addParams(tool: 'zoonotic_rank')
 
 workflow {
 

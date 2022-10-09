@@ -160,7 +160,7 @@ class ArgumentsObject():
         if "x" not in self.params:
             raise InputError("--x is required!")
 
-        platform_not_specific = self.common_dict['task'] in ['polish', 'post_assembly'] or (self.common_dict['task'] == 'filter' and self.common_dict['subtask'] in ['map', 'blast', 'contigs'])
+        platform_not_specific = self.common_dict['task'] in ['polish', 'postassembly'] or (self.common_dict['task'] == 'filter' and self.common_dict['subtask'] in ['map', 'blast', 'contigs'])
         # platform needed
         if not platform_not_specific:
             if "platform" not in self.params:
