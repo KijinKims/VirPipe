@@ -4,14 +4,14 @@ workflow {
     main:
         if (params.platform == 'illumina') {
             Channel.fromPath([params.x, params.x2]).buffer(size:2).set{fastq_pair}
-            tax_classify_illumina(fastq_pair)
+            taxclassify_illumina(fastq_pair)
         } else if (params.platform == 'nanopore') {
             Channel.fromPath(params.x).set{fastx}
-            tax_classify_nanopore(fastx)
+            taxclassify_nanopore(fastx)
         }
 }
 
-workflow tax_classify_illumina {
+workflow taxclassify_illumina {
     take:
         fastq_pair
 
@@ -33,7 +33,7 @@ workflow tax_classify_illumina {
         krona(krona_inputs)
 }
 
-workflow tax_classify_nanopore {
+workflow taxclassify_nanopore {
     take:
         fastx
 
@@ -119,7 +119,7 @@ process metacomp {
     errorStrategy 'ignore'
     tag "${params.prefix}:metacomp"
     
-    publishDir "${params.outdir}/tax_classify", mode: 'copy'
+    publishDir "${params.outdir}/taxclassify", mode: 'copy'
 
     input:
         path kraken_list
@@ -134,7 +134,7 @@ process metacomp {
 
 process krona {
     tag "${params.prefix}:krona"
-    publishDir "${params.outdir}/tax_classify", mode: 'copy'
+    publishDir "${params.outdir}/taxclassify", mode: 'copy'
 
     input:
         tuple path(krona_input), val(tool)

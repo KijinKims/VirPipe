@@ -4,7 +4,7 @@ include { filter_reads_illumina; filter_reads_nanopore } from './filter_reads'
 include { filter_host_illumina; filter_host_nanopore } from './filter_host'
 include { map_illumina; map_nanopore } from './map'
 include { filter_map } from './filter_map'
-include { tax_classify_illumina; tax_classify_nanopore } from './tax_classify' addParams(tool: 'kraken2')
+include { taxclassify_illumina; taxclassify_nanopore } from './taxclassify' addParams(tool: 'kraken2')
 include { assembly_illumina; assembly_nanopore } from './assembly' addParams(tool: params.assembly_tool)
 include { polish } from './polish' addParams(tool: 'racon medaka')
 include { filter_contigs } from './filter_contigs'
@@ -48,8 +48,8 @@ workflow {
             filter_map(map_illumina.out)
         }
 
-        if(!params.skip_tax_classify){
-            tax_classify_illumina(filter_completed)
+        if(!params.skip_taxclassify){
+            taxclassify_illumina(filter_completed)
         }
 
         if(!params.skip_assembly){
@@ -92,8 +92,8 @@ workflow {
             filter_map(map_nanopore.out)
         }
 
-        if(!params.skip_tax_classify){
-            tax_classify_nanopore(filter_completed)
+        if(!params.skip_taxclassify){
+            taxclassify_nanopore(filter_completed)
         }
 
         if(!params.skip_assembly){

@@ -22,9 +22,9 @@ p <- add_argument(p, "--qc_html", help="QC html file path")
 
 p <- add_argument(p, "--map_summary", help="Reference map summary file path")
 
-p <- add_argument(p, "--tax_classify_directory", help="Directory where taxonomic classifcation result is saved")
+p <- add_argument(p, "--taxclassify_directory", help="Directory where taxonomic classifcation result is saved")
 
-p <- add_argument(p, "--tax_classify_kraken_html", help="Kraken result html file path")
+p <- add_argument(p, "--taxclassify_kraken_html", help="Kraken result html file path")
 
 p <- add_argument(p, "--assembly_directory", help="Directory where assembly result is saved")
 
@@ -59,16 +59,16 @@ if(is.na(args$map_summary)){
   map_summary_file <- args$map_summary
 }
 
-if(is.na(args$tax_classify_directory)){
-  tax_classify_directory <- paste(outdir, "/tax_classify/", sep = "")
+if(is.na(args$taxclassify_directory)){
+  taxclassify_directory <- paste(outdir, "/taxclassify/", sep = "")
 } else{
-  tax_classify_directory <- args$tax_classify_directory
+  taxclassify_directory <- args$taxclassify_directory
 }
 
-if(is.na(args$tax_classify_kraken_html)){
-  tax_classify_kraken_link <- paste(outdir, "/tax_classify/", prefix, ".kraken.html", sep = "")
+if(is.na(args$taxclassify_kraken_html)){
+  taxclassify_kraken_link <- paste(outdir, "/taxclassify/", prefix, ".kraken.html", sep = "")
 } else{
-  tax_classify_kraken_link <- args$tax_classify_kraken_html
+  taxclassify_kraken_link <- args$taxclassify_kraken_html
 }
 
 if(is.na(args$assembly_directory)){
@@ -119,8 +119,8 @@ render(rmd_template_file,
                   outdir=outdir,
                   qc_link=qc_link, 
                   map_summary_file=map_summary_file,
-                  tax_classify_directory=tax_classify_directory,
-                  tax_classify_kraken_link=tax_classify_kraken_link, 
+                  taxclassify_directory=taxclassify_directory,
+                  taxclassify_kraken_link=taxclassify_kraken_link, 
                   assembly_directory=assembly_directory,
                   blast_blastn_file=blast_blastn_file,
 		              blastn_html_link=blastn_html_link,

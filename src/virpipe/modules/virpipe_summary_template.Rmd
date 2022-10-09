@@ -7,8 +7,8 @@ params:
   outdir: ""
   qc_link: ""
   map_summary_file: ""
-  tax_classify_directory: ""
-  tax_classify_kraken_link: ""
+  taxclassify_directory: ""
+  taxclassify_kraken_link: ""
   assembly_directory: ""
   blast_blastn_file: ""
   blastn_html_link: ""
@@ -109,26 +109,26 @@ map_summary_table %>%
   kable_styling()
 ```
 
-```{r tax_classify_directory}
-tax_classify_directory_exists <- dir.exists(params$tax_classify_directory)
+```{r taxclassify_directory}
+taxclassify_directory_exists <- dir.exists(params$taxclassify_directory)
 ```
-```{r, results='asis', eval = tax_classify_directory_exists, echo=FALSE}
+```{r, results='asis', eval = taxclassify_directory_exists, echo=FALSE}
 cat('\n# Taxonomic classification\n')
 ```
 
-```{r tax_classify_heatmaps}
-tax_classify_family_exists <- file.exists(paste(params$tax_classify_directory, prefix, "_family.svg", sep=""))
-tax_classify_genus_exists <- file.exists(paste(params$tax_classify_directory, prefix, "_genus.svg", sep=""))
-tax_classify_species_exists <- file.exists(paste(params$tax_classify_directory, prefix, "_species.svg", sep=""))
-heatmap_exists <- tax_classify_family_exists | tax_classify_genus_exists | tax_classify_species_exists
-if (tax_classify_family_exists) {
-  normalized_tax_classify_family_heatmap_link <- normalizePath(paste(params$tax_classify_directory, prefix, "_family.svg", sep=""))
+```{r taxclassify_heatmaps}
+taxclassify_family_exists <- file.exists(paste(params$taxclassify_directory, prefix, "_family.svg", sep=""))
+taxclassify_genus_exists <- file.exists(paste(params$taxclassify_directory, prefix, "_genus.svg", sep=""))
+taxclassify_species_exists <- file.exists(paste(params$taxclassify_directory, prefix, "_species.svg", sep=""))
+heatmap_exists <- taxclassify_family_exists | taxclassify_genus_exists | taxclassify_species_exists
+if (taxclassify_family_exists) {
+  normalized_taxclassify_family_heatmap_link <- normalizePath(paste(params$taxclassify_directory, prefix, "_family.svg", sep=""))
 }
-if (tax_classify_genus_exists) {
-  normalized_tax_classify_genus_heatmap_link <- normalizePath(paste(params$tax_classify_directory, prefix, "_genus.svg", sep=""))
+if (taxclassify_genus_exists) {
+  normalized_taxclassify_genus_heatmap_link <- normalizePath(paste(params$taxclassify_directory, prefix, "_genus.svg", sep=""))
 }
-if (tax_classify_species_exists) {
-  normalized_tax_classify_species_heatmap_link <- normalizePath(paste(params$tax_classify_directory, prefix, "_species.svg", sep=""))
+if (taxclassify_species_exists) {
+  normalized_taxclassify_species_heatmap_link <- normalizePath(paste(params$taxclassify_directory, prefix, "_species.svg", sep=""))
 }
 ```
 
@@ -136,31 +136,31 @@ if (tax_classify_species_exists) {
 cat('## Taxonomy heatmaps\n\n')
 ```
 
-```{r, results='asis', eval = tax_classify_family_exists, echo=FALSE}
+```{r, results='asis', eval = taxclassify_family_exists, echo=FALSE}
 cat('#### Family\n')
-cat('![](', normalized_tax_classify_family_heatmap_link, ')')
+cat('![](', normalized_taxclassify_family_heatmap_link, ')')
 ```
 
-```{r, results='asis', eval = tax_classify_genus_exists, echo=FALSE}
+```{r, results='asis', eval = taxclassify_genus_exists, echo=FALSE}
 cat('#### Genus\n')
-cat('![](', normalized_tax_classify_genus_heatmap_link, ')')
+cat('![](', normalized_taxclassify_genus_heatmap_link, ')')
 ```
 
-```{r, results='asis', eval = tax_classify_species_exists, echo=FALSE}
+```{r, results='asis', eval = taxclassify_species_exists, echo=FALSE}
 cat('#### Species\n')
-cat('![](', normalized_tax_classify_species_heatmap_link, ')')
+cat('![](', normalized_taxclassify_species_heatmap_link, ')')
 ```
 
 
-```{r tax_classify_kraken_link}
-tax_classify_kraken_exists <- file.exists(params$tax_classify_kraken_link)
-if (tax_classify_kraken_exists) {
-  normalized_tax_classify_kraken_link <- params$tax_classify_kraken_link
+```{r taxclassify_kraken_link}
+taxclassify_kraken_exists <- file.exists(params$taxclassify_kraken_link)
+if (taxclassify_kraken_exists) {
+  normalized_taxclassify_kraken_link <- params$taxclassify_kraken_link
 }
 ```
-```{r, results='asis', eval = tax_classify_kraken_exists, echo=FALSE}
+```{r, results='asis', eval = taxclassify_kraken_exists, echo=FALSE}
 cat('## Krona chart\n\n')
-cat('The piechart generated with Krona from Kraken result is linked [here](', normalized_tax_classify_kraken_link, ').\n')
+cat('The piechart generated with Krona from Kraken result is linked [here](', normalized_taxclassify_kraken_link, ').\n')
 ```
 
 ```{r assembly_directory}

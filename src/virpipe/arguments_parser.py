@@ -161,9 +161,9 @@ class Parser:
         map_parser.add_argument('--file-ref', '-fr', nargs='?', type=lambda x: parser_path_check(map_parser, valid_fasta_list, x))
         map_parser.add_argument('--dir-ref', '-dr', nargs='?', type=lambda x: parser_path_check(map_parser, valid_dir, x))
 
-        tax_classify_parser = subparsers.add_parser('tax_classify', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
-        tax_classify_parser.add_argument('--tool', '-t', nargs='*', choices=['kraken2'], default=['kraken2'])
-        tax_classify_parser.add_argument('--kraken2-db', nargs='?', type=lambda x: parser_path_check(tax_classify_parser, valid_dir, x))
+        taxclassify_parser = subparsers.add_parser('taxclassify', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
+        taxclassify_parser.add_argument('--tool', '-t', nargs='*', choices=['kraken2'], default=['kraken2'])
+        taxclassify_parser.add_argument('--kraken2-db', nargs='?', type=lambda x: parser_path_check(taxclassify_parser, valid_dir, x))
 
         assembly_parser = subparsers.add_parser('assembly', parents=[shared_parser, platform_parser, input_parser], argument_default=argparse.SUPPRESS)
         assembly_parser.add_argument('--tool', '-t', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
@@ -196,7 +196,7 @@ class Parser:
         all_parser.add_argument('--skip-filter-read', action='store_true', default=False)
         all_parser.add_argument('--skip-host-genome', action='store_true', default=False)
         all_parser.add_argument('--skip-map', action='store_true', default=False)
-        all_parser.add_argument('--skip-tax-classify', action='store_true', default=False)
+        all_parser.add_argument('--skip-taxclassify', action='store_true', default=False)
         all_parser.add_argument('--skip-assembly', action='store_true', default=False)
         all_parser.add_argument('--skip-blast', action='store_true', default=False)
         all_parser.add_argument('--skip-zoonosis', action='store_true', default=False)
