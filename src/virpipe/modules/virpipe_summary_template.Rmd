@@ -22,11 +22,11 @@ knitr::opts_chunk$set(echo=FALSE)
 ```
 
 ```{r message=FALSE, warning=FALSE}
-library(dplyr)
-library(data.table)
-library(DT)
-library(ggplot2)
-library(kableExtra)
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(DT))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(kableExtra))
 ```
 
 ```{r}

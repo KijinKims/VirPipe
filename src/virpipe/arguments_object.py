@@ -24,7 +24,7 @@ def file_handle_as_csv_dictreader_object(file_handle):
     elif file_extension == '.xlsx' or file_extension == '.xls':
         reader = csv.DictReader(file_handle, dialect='excel')
     else:
-        warnings.warn("The file given to --file_input is neither csv, tsv nor xlsx. So it's format is deduced by csv::Sniffer. If not working, please consider changing the file extension in accordance with your file's format.")
+        warnings.warn("The file given to --file-input is neither csv, tsv nor xlsx. So it's format is deduced by csv::Sniffer. If not working, please consider changing the file extension in accordance with your file's format.")
         dialect = csv.Sniffer().sniff(file_handle.read(1024))
         file_handle.seek(0)
         reader = csv.DictReader(file_handle, dialect)
@@ -135,7 +135,7 @@ class ArgumentsObject():
 
         if not run_objs:
             if 'prefix' not in self.input_args:
-                raise InputError("Either --file_input or --prefix is required!")
+                raise InputError("Either --file-input or --prefix is required!")
 
             n = len(self.input_args['prefix'])
 
@@ -174,6 +174,13 @@ class ArgumentsObject():
         if self.common_dict['task'] == 'polish':
             if "reads" not in self.params:
                 raise InputError("--reads is missing!")
+
+        if self.common_dict['task'] == 'all':
+            if "assembly_tool" not in self.params:
+                if self.params['platform'] == "nanopore":
+                    self.params['assembly_tool'] = "flye"
+                else:
+                    self.params['assembly_tool'] = "spades"
 
         if platform_not_specific or self.params['platform'] == "nanopore":
             if "x2" in self.params:

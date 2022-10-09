@@ -98,7 +98,15 @@ workflow {
 
         if(!params.skip_assembly){
             contigs = assembly_nanopore(filter_completed)
-            filter_contigs(contigs)
+
+            if(!params.skip_polish){
+                polished_contigs = polish(contigs)
+            }
+            else {
+                polished_contigs = contigs
+            }
+
+            filter_contigs(polished_contigs, fastx)
             if(!params.skip_blast){
                 blast(filter_contigs.out)
                 filter_blast(blast.out)
