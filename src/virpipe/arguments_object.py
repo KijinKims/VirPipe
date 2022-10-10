@@ -124,7 +124,7 @@ class ArgumentsObject():
     
     def set_params_defaults(self):
         if 'outdir' not in self.params:
-            self.params['outdir'] = self.params['prefix']
+            self.params['outdir'] = '.'
 
     def reproduce_run_objs(self):
         run_objs = []
