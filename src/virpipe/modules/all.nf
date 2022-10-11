@@ -29,14 +29,14 @@ workflow {
             qc_illumina(fastq_pair)
         }
 
-        if(!params.skip_filter_read){
+        if(!params.skip_filter_reads){
             reads = filter_reads_illumina(fastq_pair)
         }
         else{
             reads = fastq_pair
         }
 
-        if (params.host_genome == null | params.skip_host_genome) {
+        if (params.host_genome == null | params.skip_filter_host) {
             filter_completed = filter_reads_illumina.out
         } else {
             Channel.fromPath(params.host_genome).set{host_genome}
@@ -73,14 +73,14 @@ workflow {
             qc_nanopore(fastx)
         }
 
-        if(!params.skip_filter_read){
+        if(!params.skip_filter_reads){
             reads = filter_reads_nanopore(fastx)
         }
         else{
             reads = fastq_pair
         }
 
-        if (params.host_genome == null | params.skip_host_genome) {
+        if (params.host_genome == null | params.skip_filter_host) {
             filter_completed = filter_reads_nanopore.out
         } else {
             Channel.fromPath(params.host_genome).set{host_genome}
