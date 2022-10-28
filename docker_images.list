@@ -27,7 +27,7 @@ nanozoo/krona:latest
 #assembly
 staphb/spades:latest
 vout/megahit:latest
-biocontainers/canu:v1.8dfsg-2-deb_cv1
+staphb/canu:latest
 staphb/flye:latest
 #filter contigs
 nanozoo/bbmap:38.86--9ebcbfa
