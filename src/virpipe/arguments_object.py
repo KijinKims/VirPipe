@@ -31,26 +31,18 @@ def file_handle_as_csv_dictreader_object(file_handle):
 
     return reader
 
-def resolve_rpath(rpath):
-    return str(Path(rpath).resolve())
-
 class ArgumentsObject():
     def __init__(self, args_dict):
 
         self.common_dict = args_dict
 
-        nxf_script = f"{args_dict['modules_dir']}/{'_'.join([args_dict['task']] + ([args_dict['subtask']] if 'subtask' in args_dict else []))}.nf"
+        nxf_script = f"{args_dict['modules_dir']}/{args_dict['task']}.nf"
         self.nxf_script = nxf_script
 
         if 'config' in args_dict:
             self.config = args_dict['config']
         else:
-            self.config = f"{args_dict['modules_dir']}/{'_'.join([args_dict['task']] + ([args_dict['subtask']] if 'subtask' in args_dict else []))}.config"
-
-        if 'profile' in args_dict:
-            self.profile = args_dict['profile']
-        else:
-            self.profile = None
+            self.config = f"{args_dict['modules_dir']}/{args_dict['task']}.config"
 
         if 'resume' in args_dict:
             self.resume = args_dict['resume']
@@ -68,9 +60,6 @@ class ArgumentsObject():
                 self.input_args[k] = v
 
         self.file_input = args_dict['file_input'] if 'file_input' in args_dict else ''
-
-        self.summary_script = f"{args_dict['modules_dir']}/virpipe_summary_script.R"
-        self.summary_markdown = f"{args_dict['modules_dir']}/virpipe_summary_template.Rmd"
         
     def add_param_to_params(self, key, value):
         if key in self.params:
@@ -160,7 +149,7 @@ class ArgumentsObject():
         if "x" not in self.params:
             raise InputError("--x is required!")
 
-        platform_not_specific = self.common_dict['task'] in ['polish', 'postassembly'] or (self.common_dict['task'] == 'filter' and self.common_dict['subtask'] in ['map', 'blast', 'contigs'])
+        platform_not_specific = self.common_dict['task'] in ['polish', 'blast', 'zoonosis'] or self.common_dict['subtask'] in ['map', 'blast', 'contigs']
         # platform needed
         if not platform_not_specific:
             if "platform" not in self.params:
@@ -185,11 +174,3 @@ class ArgumentsObject():
         if platform_not_specific or self.params['platform'] == "nanopore":
             if "x2" in self.params:
                 warnings.warn("Chosen analysis doesn't need --x2. Given argument will be ignored.")
-
-        for k, v in self.params.items():
-            # resolve relative path
-            if k in path_args:
-                if type(v) == list:
-                    self.params[k] = [resolve_rpath(x) for x in v]
-                else:
-                    self.params[k] = resolve_rpath(v)

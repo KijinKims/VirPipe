@@ -10,12 +10,6 @@ class Pipeline():
 
         cmd += f"-c {self.run_obj.config} "
 
-        if self.run_obj.profile:
-            if type(self.run_obj.profile) == list:
-                cmd += f"-profile {','.join(self.run_obj.profile)} "
-            else:
-                cmd += f"-profile {self.run_obj.profile} "
-
         if self.run_obj.resume:
             cmd += f"-resume "
 
@@ -31,16 +25,8 @@ class Pipeline():
                 cmd += f"--{param} {value} "
 
         return cmd
-
-    def generate_summary_command(self):
-        cmd = f"Rscript {self.run_obj.summary_script} --markdown {self.run_obj.summary_markdown} --outdir {self.run_obj.params['outdir']} --prefix {self.run_obj.params['prefix']}"
-        return cmd
-
+    
     def run(self):
         command_string = self.generate_command()
         #print(command_string)
-        subprocess.run(command_string, shell=True, check=True)
-
-    def summary_run(self):
-        command_string = self.generate_summary_command()
         subprocess.run(command_string, shell=True, check=True)

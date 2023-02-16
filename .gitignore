@@ -3,3 +3,4 @@ src/*.egg-info
 src/build
 src/virpipe/__pycache__
 __pycache__
+sample/

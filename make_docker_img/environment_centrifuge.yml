@@ -1,0 +1,7 @@
+name: virpipe_centrifuge
+
+channels:
+  - bioconda
+
+dependencies:
+  - centrifuge
