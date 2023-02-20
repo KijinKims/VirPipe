@@ -1,0 +1,35 @@
+name: virpipe
+dependencies:
+  - conda-forge::python>=3.7
+  - conda-forge::pip
+  - bioconda::nextflow
+  - conda-forge::biopython
+  - conda-forge::pandas
+  - conda-forge::r-base
+  - conda-forge::r-dplyr
+  - conda-forge::r-data.table
+  - conda-forge::r-dt
+  - bioconda::fastqc
+  - bioconda::multiqc
+  - bioconda::nanoplot
+  - bioconda::prinseq
+  - bioconda::trimmomatic
+  - bioconda::nanofilt
+  - bioconda::minimap2
+  - bioconda::bedtools
+  - bioconda::samtools
+  - bioconda::qualimap
+  - bioconda::kraken2
+  - bioconda::krakentools
+  - bioconda::krona
+  - bioconda::spades
+  - bioconda::megahit
+  - bioconda::canu
+  - bioconda::flye
+  - bioconda::bbmap
+  - bioconda::racon
+  - bioconda::medaka
+  - bioconda::blast
+  - bioconda::r-taxonomizr
+  - bioconda::prodigal
+  - conda-forge::r-cairo
