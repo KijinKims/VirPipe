@@ -1,3 +1,3 @@
-[submodule "make_docker_img/custom_scripts/zoonotic_rank"]
-	path = make_docker_img/custom_scripts/zoonotic_rank
+[submodule "build_image/custom_scripts/zoonotic_rank"]
+	path = build_image/custom_scripts/zoonotic_rank
 	url = https://github.com/KijinKims/zoonotic_rank.git
