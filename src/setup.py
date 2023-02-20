@@ -1,14 +1,27 @@
-import setuptools
+from setuptools import setup, find_packages
 
-setuptools.setup(
-    name='virpipe',
+setup_requires = [
+    ]
+
+install_requires = [
+    'docker',
+    'pyfastx',
+    ]
+
+setup(
+    name='VirPipe',
     version='1.0',
-    scripts=['./scripts/virpipe'],
+    description='VirPipe is a easy-to-use computational pipeline to identify virus sequences from high-throughput sequencing reads.',
     author='Kijin Kim',
-    description='virpipe',
-    packages=['virpipe'],
-    install_requires=[
-        'setuptools'
-    ],
-    include_package_data=True
-)
+    author_email='skkujin@gmail.com',
+    url='https://github.com/KijinKims/VirPipe',
+    packages=find_packages(),
+    install_requires=install_requires,
+    setup_requires=setup_requires,
+    license='MIT',
+    entry_points={
+        'console_scripts': [
+            'virpipe = virpipe.__main__:main',
+            ],
+        },
+    )

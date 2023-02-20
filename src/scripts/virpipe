@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-if [[ ! $@ ]]; then
-    python -m virpipe -h
-else
-    python -m virpipe $@
-fi

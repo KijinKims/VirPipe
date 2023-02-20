@@ -4,8 +4,10 @@ from .arguments.validation import Validator
 from .command.nextflow import CommandConverter
 from .command.run_docker import DockerRunner
 
-if __name__ == '__main__':
-    args = Parser(sys.argv[1:]).get_args()
+def main():
+    p = Parser(sys.argv[1:])
+    
+    args = p.get_args()
 
     args = Validator(args).validate()
 
