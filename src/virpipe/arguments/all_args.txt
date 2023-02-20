@@ -1,0 +1,43 @@
+# preprocess
+save-preprocessed=True
+illumina-min-read-quality=8
+nanopore-min-read-quality=8
+nanopore-min-read-length=200
+
+# remove-host
+save-host-removed=True
+host-genome=
+
+# map
+save-map-bam=False
+ref=
+dir-ref=
+min-avg-dep=1.0
+
+# classify-taxonomy
+kraken2-confidence-threshold=0.1
+kraken2-db=
+centrifuge-db=
+
+# assemble
+assembly-tool=flye
+min-contig-length=600
+
+# polish
+reads=
+
+# blast
+blast-db=
+min-evalue=1.0e-5
+min-blast-aln-len=100
+taxonomizr-db=
+
+skip-qc=False
+skip-preprocess=False
+skip-remove-host=False
+skip-map=False
+skip-classify-taxonomy=False
+skip-assemble=False
+skip-polish=False
+skip-blast=False
+do-zoonotic-rank=False

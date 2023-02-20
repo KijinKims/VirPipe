@@ -8,14 +8,14 @@ workflow {
 
         if (params.platform == 'illumina') {
             Channel.fromPath([params.fastq, params.fastq2]).buffer(size:2).set{fastq_pair}
-            contigs = assembly_illumina(fastq_pair)
+            contigs = assemble_illumina(fastq_pair)
         } else if (params.platform == 'nanopore') {
             Channel.fromPath(params.fastq).set{fastq}
-            contigs = assembly_nanopore(fastq)
+            contigs = assemble_nanopore(fastq)
         }
 }
 
-workflow assembly_illumina {
+workflow assemble_illumina {
     take:
         fastq_pair
     emit:
@@ -27,7 +27,7 @@ workflow assembly_illumina {
         filtered_contigs = rename_contigs(length_filter_contigs.out)
 }
 
-workflow assembly_nanopore {
+workflow assemble_nanopore {
     take:
         fastq
     emit:
@@ -49,7 +49,7 @@ workflow assembly_nanopore {
 process spades {
     tag "${params.prefix}:spades"
 
-    publishDir "${params.outdir}/assembly", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
+    publishDir "${params.outdir}/assemble", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
     
     input:
         tuple path(pe1), path(pe2)
@@ -58,14 +58,14 @@ process spades {
     script:
 
     """
-    spades.py --pe1-1 $pe1 --pe1-2 $pe2 -o ${params.prefix} -t ${params.threads} $params.spades_options
+    spades.py --pe1-1 $pe1 --pe1-2 $pe2 -o ${params.prefix} -t 12 $params.spades_options
     """
 }
 
 process megahit {
     tag "${params.prefix}:megahit"
     
-    publishDir "${params.outdir}/assembly", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
+    publishDir "${params.outdir}/assemble", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
 
     input:
         path fastq
@@ -74,14 +74,14 @@ process megahit {
     script:
 
     """
-    megahit -r $fastq -o $params.prefix --out-prefix $params.prefix -t ${params.threads} $params.megahit_options
+    megahit -r $fastq -o $params.prefix --out-prefix $params.prefix -t 12 $params.megahit_options
     """
 }
 
 process canu {
     tag "${params.prefix}:canu"
     
-    publishDir "${params.outdir}/assembly", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
+    publishDir "${params.outdir}/assemble", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
 
     input:
         path fastq
@@ -97,7 +97,7 @@ process canu {
 process flye {
     tag "${params.prefix}:flye"
     
-    publishDir "${params.outdir}/assembly", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
+    publishDir "${params.outdir}/assemble", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
 
     input:
         path fastq
@@ -106,7 +106,7 @@ process flye {
     script:
 
     """
-    flye --nano-raw $fastq --out-dir $params.prefix --threads ${params.threads} $params.flye_options
+    flye --nano-raw $fastq --out-dir $params.prefix --threads 12 $params.flye_options
     """
 }
 
@@ -123,7 +123,7 @@ process length_filter_contigs {
 
 process rename_contigs {
     tag "${params.prefix}:rename_contigs"
-    publishDir "${params.outdir}/assembly", mode: 'copy'
+    publishDir "${params.outdir}/assemble", mode: 'copy'
     input:
         path contigs
     output:

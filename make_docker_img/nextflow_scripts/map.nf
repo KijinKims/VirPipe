@@ -72,7 +72,7 @@ workflow map_refs_parse {
 process map_pair {
     tag "${params.prefix}:map_pair"
 
-    if(params.save_bam){
+    if(params.save_map_bam){
         publishDir path: "$params.outdir/map", mode: 'copy'
     }
 
@@ -88,7 +88,7 @@ process map_pair {
 process map_single {
     tag "${params.prefix}:map_single"
 
-    if(params.save_bam){
+    if(params.save_map_bam){
         publishDir path: "$params.outdir/map", mode: 'copy'
     }
 

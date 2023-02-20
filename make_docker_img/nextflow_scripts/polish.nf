@@ -31,7 +31,7 @@ process ava_map {
     output:
         path "${params.prefix}.paf"
     """
-    minimap2 -x ava-ont $contigs $reads -t ${params.threads} > ${params.prefix}.paf
+    minimap2 -x ava-ont $contigs $reads -t 12 > ${params.prefix}.paf
     """
 }
 
@@ -47,7 +47,7 @@ process racon {
     output:
         path "${params.prefix}.polished_contigs.fasta"
     """
-    racon -t ${params.threads} $reads $paf $contigs > ${params.prefix}.polished_contigs.fasta
+    racon -t 12 $reads $paf $contigs > ${params.prefix}.polished_contigs.fasta
     """
 }
 
@@ -64,6 +64,6 @@ process medaka {
     """
     medaka_consensus -i $reads -d $contigs \
          -o ${params.prefix} \
-         -t ${params.threads} -m ${params.medaka_model}
+         -t 12 -m ${params.medaka_model}
     """
 }

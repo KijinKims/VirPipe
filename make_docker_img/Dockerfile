@@ -45,6 +45,9 @@ RUN git clone https://github.com/KijinKims/VirPipe.git /home/user/virpipe
 # Configure directory structure:
 RUN mkdir /home/user/databases
 
+# Create a folder for input files
+RUN mkdir /home/user/input
+
 # Create a folder for running
 RUN mkdir /home/user/run
 
@@ -55,7 +58,8 @@ COPY bamcov /home/user/bamcov
 #WORKDIR /opt/conda/envs/virpipe/opt/krona/taxonomy
 #RUN wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz.md5
 #RUN wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz && md5sum -c taxdump.tar.gz.md5
-COPY taxdump.tar.gz /opt/conda/envs/virpipe/opt/krona/taxonomy
+ARG taxdumpPath
+COPY ${taxdumpPath} /opt/conda/envs/virpipe/opt/krona/taxonomy
 
 RUN /bin/bash -c "source activate virpipe"
 WORKDIR /opt/conda/envs/virpipe/opt/krona

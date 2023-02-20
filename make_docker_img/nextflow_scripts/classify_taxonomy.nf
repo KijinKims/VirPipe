@@ -4,14 +4,14 @@ workflow {
     main:
         if (params.platform == 'illumina') {
             Channel.fromPath([params.fastq, params.fastq2]).buffer(size:2).set{fastq_pair}
-            taxclassify_illumina(fastq_pair)
+            classify_taxonomy_illumina(fastq_pair)
         } else if (params.platform == 'nanopore') {
             Channel.fromPath(params.fastq).set{fastq}
-            taxclassify_nanopore(fastq)
+            classify_taxonomy_nanopore(fastq)
         }
 }
 
-workflow taxclassify_illumina {
+workflow classify_taxonomy_illumina {
     take:
         fastq_pair
 
@@ -29,7 +29,7 @@ workflow taxclassify_illumina {
         krona(krona_inputs)
 }
 
-workflow taxclassify_nanopore {
+workflow classify_taxonomy_nanopore {
     take:
         fastq
 
@@ -60,7 +60,7 @@ process kraken2_pair {
     """
     kraken2 --db $kraken2_db \
         --report ${params.prefix}.kraken_report.csv \
-        --paired --threads ${params.threads} --confidence ${params.kraken2_confidence_threshold}\
+        --paired --threads 12 --confidence ${params.kraken2_confidence_threshold}\
         $pe1 $pe2
     """
 }
@@ -106,7 +106,7 @@ process kreport2list {
 process metacomp {
     tag "${params.prefix}:metacomp"
     
-    publishDir "${params.outdir}/taxclassify", mode: 'copy'
+    publishDir "${params.outdir}/classify_taxonomy", mode: 'copy'
 
     input:
         path kraken_list
@@ -121,7 +121,7 @@ process metacomp {
 
 process krona {
     tag "${params.prefix}:krona"
-    publishDir "${params.outdir}/taxclassify", mode: 'copy'
+    publishDir "${params.outdir}/classify_taxonomy", mode: 'copy'
 
     input:
         path krona_input
