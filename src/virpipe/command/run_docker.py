@@ -1,6 +1,7 @@
 import os
 from os.path import abspath
 import docker
+import sys
 
 def is_gz_file(filepath):
     with open(filepath, 'rb') as test_f:
@@ -9,8 +10,8 @@ def is_gz_file(filepath):
 class DockerRunner():
     def __init__(self, args):
         self.args = args
-        self.prefix = args['prefix']
-        self.image = args['image']
+        self.prefix = args.get('prefix')
+        self.image = args.get('image')
         self.volumes = {os.getcwd(): {'bind': '/home/user/run', 'mode': 'rw'}}
         self.bind_input()
         self.bind_database()
@@ -75,8 +76,21 @@ class DockerRunner():
     def run(self, nextflow_command):
         client = docker.from_env()
 
-        client.containers.run(image=self.image,
+        container = client.containers.run(image=self.image,
                               command=nextflow_command,
-                              auto_remove=True,
+                              detach=True,
                               volumes=self.volumes,
                               working_dir='/home/user/run')
+        
+        out = container.logs(stdout=True, stderr=False, stream=True)
+        err = container.logs(stdout=False, stderr=True, stream=True)
+
+        for line in out:
+            if line.decode().strip():
+                print(line.decode().strip())
+            
+        for line in err:
+            if line.decode().strip():
+                print(line.decode().strip(), file=sys.stderr)
+            
+        container.remove()

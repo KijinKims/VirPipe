@@ -20,7 +20,7 @@ COPY environment_virpipe.yml .
 COPY environment_zoonotic_rank.yml .
 COPY environment_centrifuge.yml .
 
-# Install the package:
+# Install the package for VirPipe:
 RUN conda install mamba -n base -c conda-forge
 RUN mamba env create -f environment_virpipe.yml
 ENV PATH /opt/conda/envs/virpipe/bin:$PATH
@@ -33,14 +33,12 @@ RUN R -e "install.packages(\"MetaComp\", repos = \"http://cran.us.r-project.org\
 RUN mamba env create -f environment_zoonotic_rank.yml
 ENV PATH /opt/conda/envs/virpipe_zoonotic_rank/bin:$PATH
 
+# Install r package that cannot be installed with conda:
 RUN /bin/bash -c "source activate virpipe_zoonotic_rank"
 RUN R -e "install.packages(\"betacal\", repos = \"http://cran.us.r-project.org\")"
 
-# Install independent environment for centrifuge:
+# Create independent environment for centrifuge:
 RUN mamba env create -f environment_centrifuge.yml
-
-# Clone the VirPipe git repository for fetching custom scripts not in conda repos:
-RUN git clone https://github.com/KijinKims/VirPipe.git /home/user/virpipe
 
 # Configure directory structure:
 RUN mkdir /home/user/databases
@@ -58,8 +56,7 @@ COPY bamcov /home/user/bamcov
 #WORKDIR /opt/conda/envs/virpipe/opt/krona/taxonomy
 #RUN wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz.md5
 #RUN wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz && md5sum -c taxdump.tar.gz.md5
-ARG taxdumpPath
-COPY ${taxdumpPath} /opt/conda/envs/virpipe/opt/krona/taxonomy
+COPY taxdump.tar.gz /opt/conda/envs/virpipe/opt/krona/taxonomy
 
 RUN /bin/bash -c "source activate virpipe"
 WORKDIR /opt/conda/envs/virpipe/opt/krona
