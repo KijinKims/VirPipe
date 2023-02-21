@@ -32,6 +32,7 @@ min-evalue=1.0e-5
 min-blast-aln-len=100
 taxonomizr-db=
 
+# skip steps
 skip-qc=False
 skip-preprocess=False
 skip-remove-host=False

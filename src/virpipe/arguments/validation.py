@@ -102,7 +102,7 @@ class Validator():
 
     def validate_remove_host(self):
         if not self.args.get('host_genome'):
-            raise InputError("--host_genome is required.  If you don't want to remove host genome, use --skip-remove-host.")
+            raise InputError("--host-genome is required.  If you don't want to remove host genome, use --skip-remove-host.")
         self.is_fasta(self.args.get('host_genome'))
 
     def validate_classify_taxonomy(self):
@@ -112,13 +112,13 @@ class Validator():
             if self.args.get('centrifuge_db'):
                 self.dir_exists(os.path.dirname(self.args.get('centrifuge_db')))
             else:
-                raise InputError("--centrifuge_db is required for nanopore platform. If you don't want to classify taxonomy, use --skip-classify-taxonomy.")
+                raise InputError("--centrifuge-db is required for nanopore platform. If you don't want to classify taxonomy, use --skip-classify-taxonomy.")
 
         elif platform == 'illumina':
             if self.args.get('kraken2_db'):
                 self.dir_exists(self.args.get('kraken2_db'))
             else:
-                raise InputError("--kraken2_db is required for illumina platform. If you don't want to classify taxonomy, use --skip-classify-taxonomy.")
+                raise InputError("--kraken2-db is required for illumina platform. If you don't want to classify taxonomy, use --skip-classify-taxonomy.")
                 
 
     def validate_assemble(self):
@@ -154,14 +154,14 @@ class Validator():
 
     def validate_blast(self):
         if not self.args.get('blast_db'):
-            raise InputError("--blast_db is required. If you don't want to run blast, use --skip-blast.")
+            raise InputError("--blast-db is required. If you don't want to run blast, use --skip-blast.")
         self.dir_exists(os.path.dirname(self.args.get('blast_db')))
 
         if not self.args.get('taxonomizr_db'):
-            raise InputError("--taxonomizr_db is required. If you don't want to run blast, use --skip-blast.")
+            raise InputError("--taxonomizr-db is required. If you don't want to run blast, use --skip-blast.")
         self.file_exists(self.args.get('taxonomizr_db'))
         if is_gz_file(self.args.get('taxonomizr_db')):
-            raise InputError("--taxonomizr_db should be decompressed.")
+            raise InputError("taxonomizr db is in gzipped format. It should be decompressed.")
 
     def validate_zoonotic_rank(self):
         pass
