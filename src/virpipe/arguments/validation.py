@@ -87,11 +87,11 @@ class Validator():
             raise FileNotFoundError("The directory %s does not exists." % dirname)
 
     def is_fasta(self, filename):
-        pyfastx.Fasta(filename)
+        pyfastx.Fasta(filename, build_index=False)
         return True
 
     def is_fastq(self, filename):
-        pyfastx.Fastq(filename)
+        pyfastx.Fastq(filename, build_index=False)
         return True
 
     def validate_qc(self):
