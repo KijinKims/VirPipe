@@ -17,36 +17,36 @@ class DockerRunner():
         self.bind_database()
 
     def bind_input(self):
-        base_run_dir = "/home/user/input"
+        base_input_dir = "/home/user/input"
         for name, path in self.args.items():
             mount_path = ''
             if name == 'ref':
                 for i, path in enumerate(self.args['ref']):
-                    mount_path = f"{base_run_dir}/{self.prefix}_ref_{i+1}.fasta"
+                    mount_path = f"{base_input_dir}/{self.prefix}_ref_{i+1}.fasta"
                     self.volumes[path] = {'bind': mount_path, 'mode': 'ro'}
                 continue
 
             if name == 'fastq':
                 if is_gz_file(path):
-                    mount_path = f"{base_run_dir}/{self.prefix}.fastq.gz"
+                    mount_path = f"{base_input_dir}/{self.prefix}.fastq.gz"
                 else:
-                    mount_path = f"{base_run_dir}/{self.prefix}.fastq"
+                    mount_path = f"{base_input_dir}/{self.prefix}.fastq"
             elif name == 'fastq2':
                 if is_gz_file(path):
-                    mount_path = f"{base_run_dir}/{self.prefix}_2.fastq.gz"
+                    mount_path = f"{base_input_dir}/{self.prefix}_2.fastq.gz"
                 else:
-                    mount_path = f"{base_run_dir}/{self.prefix}_2.fastq"
+                    mount_path = f"{base_input_dir}/{self.prefix}_2.fastq"
             elif name == 'fasta':
-                mount_path = f"{base_run_dir}/{self.prefix}.fasta"
+                mount_path = f"{base_input_dir}/{self.prefix}.fasta"
             elif name == 'host_genome':
-                mount_path = f"{base_run_dir}/{self.prefix}_host_genome.fasta"
+                mount_path = f"{base_input_dir}/{self.prefix}_host_genome.fasta"
             elif name == 'reads':
                 if is_gz_file(path):
-                    mount_path = f"{base_run_dir}/{self.prefix}_reads.fastq.gz"
+                    mount_path = f"{base_input_dir}/{self.prefix}_reads.fastq.gz"
                 else:
-                    mount_path = f"{base_run_dir}/{self.prefix}_reads.fastq"
+                    mount_path = f"{base_input_dir}/{self.prefix}_reads.fastq"
             elif name == 'dir_ref':
-                mount_path = f"{base_run_dir}/dir-ref"
+                mount_path = f"{base_input_dir}/dir-ref"
 
             if mount_path != '':
                 path = abspath(path)
