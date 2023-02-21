@@ -56,11 +56,14 @@ COPY bamcov /home/user/bamcov
 #WORKDIR /opt/conda/envs/virpipe/opt/krona/taxonomy
 #RUN wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz.md5
 #RUN wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz && md5sum -c taxdump.tar.gz.md5
-COPY taxdump.tar.gz /opt/conda/envs/virpipe/opt/krona/taxonomy
+# or Copy it from local
+#COPY taxdump.tar.gz /opt/conda/envs/virpipe/opt/krona/taxonomy
 
 RUN /bin/bash -c "source activate virpipe"
 WORKDIR /opt/conda/envs/virpipe/opt/krona
-RUN /bin/bash ktUpdateTaxonomy.sh --only-build
+RUN /bin/bash ktUpdateTaxonomy.sh
+# If taxonomy database is downloaded manually previously
+#RUN /bin/bash ktUpdateTaxonomy.sh --only-build
 
 # Copy nextflow scripts:
 COPY --chown=$USER_ID:$GROUP_ID nextflow_scripts/ /home/user/nextflow_scripts/
