@@ -10,7 +10,7 @@ install_requires = [
 
 setup(
     name='VirPipe',
-    version='1.0',
+    version='1.0.1',
     description='VirPipe is a easy-to-use computational pipeline to identify virus sequences from high-throughput sequencing reads.',
     author='Kijin Kim',
     author_email='skkujin@gmail.com',
