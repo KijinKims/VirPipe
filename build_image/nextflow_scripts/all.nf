@@ -64,7 +64,7 @@ workflow {
         if(!params.skip_qc){
             qc_nanopore(fastq)
         }
-
+        
         if(!params.skip_preprocess){
             reads = preprocess_nanopore(fastq)
         }
@@ -91,7 +91,7 @@ workflow {
             contigs = assemble_nanopore(preprocess_completed)
 
             if(!params.skip_polish){
-                polished_contigs = polish(contigs)
+                polished_contigs = polish(contigs, preprocess_completed)
             }
             else {
                 polished_contigs = contigs
