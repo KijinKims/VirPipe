@@ -56,7 +56,7 @@ class Parser:
         map_parser.add_argument('--save-map-bam', action='store_true', default=False)
         map_parser.add_argument('--ref', nargs='*')
         map_parser.add_argument('--dir-ref', nargs='?')
-        map_parser.add_argument('--min-avg-dep', nargs='?', type=check_positive_float, default=1.0)
+        map_parser.add_argument('--min-avg-cov', nargs='?', type=check_positive_float, default=1.0)
 
         classify_taxonomy_parser = subparsers.add_parser('classify-taxonomy', parents=[common_parser, platform_parser, fastq_input_parser], argument_default=argparse.SUPPRESS)
         classify_taxonomy_parser.add_argument('--kraken2-confidence-threshold', nargs='?', type=check_positive_float, default=0.1)
@@ -64,7 +64,7 @@ class Parser:
         classify_taxonomy_parser.add_argument('--centrifuge-db', nargs='?')
 
         assemble_parser = subparsers.add_parser('assemble', parents=[common_parser, platform_parser, fastq_input_parser], argument_default=argparse.SUPPRESS)
-        assemble_parser.add_argument('--assembly-tool', '-t', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
+        assemble_parser.add_argument('--assembly-tool', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
         assemble_parser.add_argument('--min-contig-length', nargs='?', type=check_positive_int, default=600)
 
         polish_parser = subparsers.add_parser('polish', parents=[common_parser, fasta_input_parser], argument_default=argparse.SUPPRESS)
@@ -88,7 +88,7 @@ class Parser:
         all_parser.add_argument('--save-map-bam', action='store_true', default=False)
         all_parser.add_argument('--ref', nargs='*')
         all_parser.add_argument('--dir-ref', nargs='?')
-        all_parser.add_argument('--min-avg-dep', nargs='?', type=check_positive_float, default=1.0)
+        all_parser.add_argument('--min-avg-cov', nargs='?', type=check_positive_float, default=1.0)
         all_parser.add_argument('--kraken2-confidence-threshold', nargs='?', type=check_positive_float, default=0.1)
         all_parser.add_argument('--kraken2-db', nargs='?')
         all_parser.add_argument('--centrifuge-db', nargs='?')

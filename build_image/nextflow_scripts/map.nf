@@ -24,7 +24,7 @@ workflow map_illumina {
         map_pair(ref_fastq_pair)
         qualimap(map_pair.out.flatten())
         bamcov(map_pair.out.flatten())
-        Channel.from("SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_DEP\tAVG_BASEQ\tAVG_MAPQ").set{bamcov_header}
+        Channel.from("SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_COV\tAVG_BASEQ\tAVG_MAPQ").set{bamcov_header}
         bamcov.out.map{ it.text }.set{ bamcov_outputs }
         bamcov_header.concat(bamcov_outputs).collectFile(name: "${params.prefix}.map.tsv", newLine: true, storeDir: "${params.outdir}/map", sort: false).set{map_out}
         filtered_map_out = filter_map_process(map_out)
@@ -43,7 +43,7 @@ workflow map_nanopore {
         map_single(ref_fastq)
         qualimap(map_single.out.flatten())
         bamcov(map_single.out.flatten())
-        Channel.from("SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_DEP\tAVG_BASEQ\tAVG_MAPQ").set{bamcov_header}
+        Channel.from("SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_COV\tAVG_BASEQ\tAVG_MAPQ").set{bamcov_header}
         bamcov.out.map{ it.text }.set{ bamcov_outputs }
         bamcov_header.concat(bamcov_outputs).collectFile(name: "${params.prefix}.map.tsv", newLine: true, storeDir: "${params.outdir}/map", sort: false).set{map_out}
         filtered_map_out = filter_map_process(map_out)
@@ -135,7 +135,7 @@ process filter_map_process {
     input:
         path map_out
     output:
-        path "${map_out.baseName}.filtered.tsv" optional true
+        path "${map_out.baseName}.map.txt" optional true
     """
     #!/usr/bin/env Rscript
     library(dplyr)
@@ -144,13 +144,13 @@ process filter_map_process {
     if (nrow(tb)==0){
         quit("no")
     }
-    #"SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_DEP\tAVG_BASEQ\tAVG_MAPQ"
+    #"SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_COV\tAVG_BASEQ\tAVG_MAPQ"
     names(tb)[names(tb) == "END"] <- "LEN"
     tb <- subset(tb, select=-START)
-    filtered_tb <- filter(tb, AVG_DEP > ${params.min_avg_dep})
+    filtered_tb <- filter(tb, AVG_DEP > ${params.min_avg_cov})
     if (nrow(tb)>0) {
         sorted_filtered_tb <- filtered_tb[order(-filtered_tb\$"PERCENT_COVERED"),]
-        write.table(sorted_filtered_tb, file ="${map_out.baseName}.filtered.tsv", row.names=FALSE, sep='\t', quote=FALSE)
+        write.table(sorted_filtered_tb, file ="${map_out.baseName}.map.txt", row.names=FALSE, sep='\t', quote=FALSE)
     }
     """
 }
