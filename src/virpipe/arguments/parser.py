@@ -45,13 +45,11 @@ class Parser:
         qc_parser.add_argument('--nanopore-min-read-length', nargs='?', type=check_positive_int, default=200)
 
         preprocess_parser = subparsers.add_parser('preprocess', parents=[common_parser, platform_parser, fastq_input_parser], argument_default=argparse.SUPPRESS)
-        preprocess_parser.add_argument('--save-preprocessed', action='store_true', default=False)
         preprocess_parser.add_argument('--illumina-min-read-quality', nargs='?', type=check_positive_int, default=8)
         preprocess_parser.add_argument('--nanopore-min-read-quality', nargs='?', type=check_positive_int, default=8)
         preprocess_parser.add_argument('--nanopore-min-read-length', nargs='?', type=check_positive_int, default=200)
         
         remove_host_parser = subparsers.add_parser('remove-host', parents=[common_parser, platform_parser, fastq_input_parser], argument_default=argparse.SUPPRESS)
-        remove_host_parser.add_argument('--save-host-removed', action='store_true', default=False)
         remove_host_parser.add_argument('--host-genome', nargs='?', required=True)
 
         map_parser = subparsers.add_parser('map', parents=[common_parser, platform_parser, fastq_input_parser], argument_default=argparse.SUPPRESS)
