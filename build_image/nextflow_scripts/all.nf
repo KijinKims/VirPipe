@@ -69,7 +69,7 @@ workflow {
             reads = preprocess_nanopore(fastq)
         }
         else{
-            reads = fastq_pair
+            reads = fastq
         }
 
         if (params.host_genome == null | params.skip_remove_host) {

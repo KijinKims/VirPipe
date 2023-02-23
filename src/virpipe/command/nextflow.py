@@ -51,30 +51,30 @@ class CommandConverter():
                 return f"--{name} {base_database_dir}/taxonomizr-db.sql"
 
         def bind_input(self, name, path):
-            base_run_dir = "/home/user/input"
+            base_input_dir = "/home/user/input"
             if name == 'fastq':
                 if is_gz_file(path):
-                    return f"--{name} {base_run_dir}/{self.prefix}.fastq.gz"
+                    return f"--{name} {base_input_dir}/{self.prefix}.fastq.gz"
                 else:
-                    return f"--{name} {base_run_dir}/{self.prefix}.fastq"
+                    return f"--{name} {base_input_dir}/{self.prefix}.fastq"
             elif name == 'fastq2':
                 if is_gz_file(path):
-                    return f"--{name} {base_run_dir}/{self.prefix}_2.fastq.gz"
+                    return f"--{name} {base_input_dir}/{self.prefix}_2.fastq.gz"
                 else:
-                    return f"--{name} {base_run_dir}/{self.prefix}_2.fastq"
+                    return f"--{name} {base_input_dir}/{self.prefix}_2.fastq"
             elif name == 'fasta':
-                return f"--{name} {base_run_dir}/{self.prefix}.fasta"
+                return f"--{name} {base_input_dir}/{self.prefix}.fasta"
             elif name == 'host_genome':
-                return f"--{name} {base_run_dir}/{self.prefix}_host_genome.fasta"
+                return f"--{name} {base_input_dir}/{self.prefix}_host_genome.fasta"
             elif name == 'reads':
                 if is_gz_file(path):
-                    return f"--{name} {base_run_dir}/{self.prefix}_reads.fastq.gz"
+                    return f"--{name} {base_input_dir}/{self.prefix}_reads.fastq.gz"
                 else:
-                    return f"--{name} {base_run_dir}/{self.prefix}_reads.fastq.gz"
+                    return f"--{name} {base_input_dir}/{self.prefix}_reads.fastq.gz"
             elif name == 'ref':
-                return f"--{name} " + ' '.join([f"{base_run_dir}/{self.prefix}_ref_{i+1}.fasta" for i in range(len(self.args['ref']))])
+                return f"--{name} " + ' '.join([f"{base_input_dir}/{self.prefix}_ref_{i+1}.fasta" for i in range(len(self.args['ref']))])
             elif name == 'dir_ref':
-                return f"--{name} {base_run_dir}/dir-ref"
+                return f"--{name} {base_input_dir}/dir-ref"
 
         def generate_nextflow_script_command(self):
             return ' '.join(self.comp_list)
