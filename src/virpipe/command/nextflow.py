@@ -32,7 +32,7 @@ class CommandConverter():
                         self.comp_list.append(self.bind_database(k, v))
                     else:
                         self.comp_list.append(self.bind_database(k, v))
-                elif k in ['fastq', 'fastq2', 'fasta', 'host_genome', 'reads', 'ref', 'dir-ref']:
+                elif k in ['fastq', 'fastq2', 'fasta', 'host_genome', 'reads', 'ref', 'dir_ref']:
                     self.comp_list.append(self.bind_input(k, v))
                 else:
                     self.comp_list.append(f"--{k} {v}")
@@ -72,7 +72,7 @@ class CommandConverter():
                 else:
                     return f"--{name} {base_input_dir}/{self.prefix}_reads.fastq.gz"
             elif name == 'ref':
-                return f"--{name} " + ' '.join([f"{base_input_dir}/{self.prefix}_ref_{i+1}.fasta" for i in range(len(self.args['ref']))])
+                return f"--{name} " + ' '.join([f"{base_input_dir}/{os.path.split(path)[1]}" for path in self.args['ref']])
             elif name == 'dir_ref':
                 return f"--{name} {base_input_dir}/dir-ref"
 

@@ -20,8 +20,8 @@ class DockerRunner():
         for name, path in self.args.items():
             mount_path = ''
             if name == 'ref':
-                for i, path in enumerate(self.args['ref']):
-                    mount_path = f"{base_input_dir}/{self.prefix}_ref_{i+1}.fasta"
+                for path in self.args['ref']:
+                    mount_path = f"{base_input_dir}/{os.path.split(path)[1]}" 
                     self.volumes[path] = {'bind': mount_path, 'mode': 'ro'}
                 continue
 
@@ -72,7 +72,6 @@ class DockerRunner():
 
     def run(self, nextflow_command):
         client = docker.from_env()
-
         container = client.containers.run(image=self.image,
                               command=nextflow_command,
                               detach=True,
