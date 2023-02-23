@@ -120,7 +120,7 @@ process summary_illumina {
     output:
         path "remove_host_summary.txt"
     """
-    echo "#host_genome_path=$params.host_genome" >> remove_host_summary.txt
+    echo "#host_genome_path=$params.host_genome.Name" >> remove_host_summary.txt
     echo "file\tpre\tpost"  >> remove_host_summary.txt
 
     pre_1=\$(bc <<< \$(cat $prepreprocess_1 | wc -l)/4)
@@ -148,7 +148,7 @@ process summary_nanopore {
     output:
         path "remove_host_summary.txt"
     """
-    echo "#host_genome_path=$params.host_genome" >> remove_host_summary.txt
+    echo "#host_genome_path=$params.host_genome.Name" >> remove_host_summary.txt
     echo "file\tpre\tpost"  >> remove_host_summary.txt
 
     pre=\$(bc <<< \$(cat $prepreprocess | wc -l)/4)

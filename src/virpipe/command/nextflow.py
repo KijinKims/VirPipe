@@ -65,7 +65,7 @@ class CommandConverter():
             elif name == 'fasta':
                 return f"--{name} {base_input_dir}/{self.prefix}.fasta"
             elif name == 'host_genome':
-                return f"--{name} {base_input_dir}/{self.prefix}_host_genome.fasta"
+                return f"--{name} {base_input_dir}/{os.path.split(path)[1]}"
             elif name == 'reads':
                 if is_gz_file(path):
                     return f"--{name} {base_input_dir}/{self.prefix}_reads.fastq.gz"

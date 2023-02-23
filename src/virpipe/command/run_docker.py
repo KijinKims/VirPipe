@@ -38,7 +38,7 @@ class DockerRunner():
             elif name == 'fasta':
                 mount_path = f"{base_input_dir}/{self.prefix}.fasta"
             elif name == 'host_genome':
-                mount_path = f"{base_input_dir}/{self.prefix}_host_genome.fasta"
+                mount_path = f"{base_input_dir}/{os.path.split(path)[1]}"
             elif name == 'reads':
                 if is_gz_file(path):
                     mount_path = f"{base_input_dir}/{self.prefix}_reads.fastq.gz"
