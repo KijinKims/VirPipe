@@ -1,5 +1,6 @@
 import os
 import sys
+import docker
 
 def is_gz_file(filepath):
     with open(filepath, 'rb') as test_f:
