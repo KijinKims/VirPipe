@@ -45,7 +45,7 @@ workflow map_nanopore {
         bamcov(map_single.out.flatten())
         Channel.from("SEQ_NAME\tSTART\tEND\tN_READS\tN_COVERED_BASES\tPERCENT_COVERED\tAVG_COV\tAVG_BASEQ\tAVG_MAPQ").set{bamcov_header}
         bamcov.out.map{ it.text }.set{ bamcov_outputs }
-        bamcov_header.concat(bamcov_outputs).collectFile(name: "${params.prefix}.map.tsv", newLine: true, sort: false).set{map_out}
+        bamcov_header.concat(bamcov_outputs).collectFile(name: "${params.prefix}.map.raw.txt", newLine: true, sort: false).set{map_out}
         filtered_map_out = filter_map_process(map_out)
 }
 
@@ -135,7 +135,7 @@ process filter_map_process {
     input:
         path map_out
     output:
-        path "${map_out.baseName}.map.txt" optional true
+        path "${map_out.simpleName}.map.txt" optional true
     """
     #!/usr/bin/env Rscript
     library(dplyr)
@@ -150,7 +150,7 @@ process filter_map_process {
     filtered_tb <- filter(tb, AVG_COV > ${params.min_avg_cov})
     if (nrow(tb)>0) {
         sorted_filtered_tb <- filtered_tb[order(-filtered_tb\$"PERCENT_COVERED"),]
-        write.table(sorted_filtered_tb, file ="${map_out.baseName}.map.txt", row.names=FALSE, sep='\t', quote=FALSE)
+        write.table(sorted_filtered_tb, file ="${map_out.simpleName}.map.txt", row.names=FALSE, sep='\t', quote=FALSE)
     }
     """
 }
