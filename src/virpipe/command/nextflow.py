@@ -29,7 +29,7 @@ class CommandConverter():
                         self.comp_list.append(f"-{k}")
                 elif 'db' in k:
                     if k in ['centrifuge_db', 'blast_db']:
-                        self.comp_list.append(self.bind_database(k, v)+f"/{tail}")
+                        self.comp_list.append(self.bind_database(k, v))
                     else:
                         self.comp_list.append(self.bind_database(k, v))
                 elif k in ['fastq', 'fastq2', 'fasta', 'host_genome', 'reads', 'ref', 'dir-ref']:
