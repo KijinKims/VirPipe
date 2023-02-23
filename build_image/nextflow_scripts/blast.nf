@@ -40,11 +40,11 @@ process blastn {
         path contigs
         path blast_db_dir
     output:
-        path "${params.prefix}.blastn.raw.txt"
+        path "${params.prefix}.blastn.txt"
     """
     { echo 'QUERY_ID\tREF_ID\tTAX_ID\tREF_TITLE\tPER_IDENT\tQUERY_LEN\tALN_LEN\tMISMATCH\tGAPOPEN\tQUERY_START\tQUERY_END\tREF_START\tREF_END\tEVALUE\tBITSCORE'; \
     blastn -query $contigs -db "${blast_db_dir}/${params.blast_db_name}" -task blastn -evalue ${params.min_evalue} -max_target_seqs 1 -outfmt "6 qseqid sseqid staxids stitle pident qlen length mismatch gapopen qstart qend sstart send evalue bitscore" -num_threads 12; \
-    } > ${params.prefix}.blastn.raw.txt
+    } > ${params.prefix}.blastn.txt
     """
 }
 
@@ -57,11 +57,11 @@ process megablast {
         path contigs
         path blast_db_dir
     output:
-        path "${params.prefix}.megablast.raw.txt"
+        path "${params.prefix}.megablast.txt"
     """
     { echo 'QUERY_ID\tREF_ID\tTAX_ID\tREF_TITLE\tPER_IDENT\tQUERY_LEN\tALN_LEN\tMISMATCH\tGAPOPEN\tQUERY_START\tQUERY_END\tREF_START\tREF_END\tEVALUE\tBITSCORE'; \
     blastn -query $contigs -db "${blast_db_dir}/${params.blast_db_name}" -task megablast -evalue ${params.min_evalue} -max_target_seqs 1 -outfmt "6 qseqid sseqid staxids stitle pident qlen length mismatch gapopen qstart qend sstart send evalue bitscore" -num_threads 12; \
-    } > ${params.prefix}.megablast.raw.txt
+    } > ${params.prefix}.megablast.txt
     """
 }
 
