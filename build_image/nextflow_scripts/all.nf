@@ -33,10 +33,10 @@ workflow {
         }
 
         if (params.host_genome == null | params.skip_remove_host) {
-            preprocess_completed = preprocess_illumina.out
+            preprocess_completed = reads
         } else {
             Channel.fromPath(params.host_genome).set{host_genome}
-            preprocess_completed = remove_host_illumina(preprocess_illumina.out, host_genome)
+            preprocess_completed = remove_host_illumina(reads, host_genome)
         }
 
         if(!params.skip_map){
@@ -51,11 +51,11 @@ workflow {
             contigs = assemble_illumina(preprocess_completed)
 
             if(!params.skip_blast){
-                blast(contigs.out)
+                blast(contigs)
             }
 
             if(params.do_zoonotic_rank){
-                zoonotic_rank(contigs.out)
+                zoonotic_rank(contigs)
             }
         }
 
@@ -73,10 +73,10 @@ workflow {
         }
 
         if (params.host_genome == null | params.skip_remove_host) {
-            preprocess_completed = preprocess_nanopore.out
+            preprocess_completed = reads
         } else {
             Channel.fromPath(params.host_genome).set{host_genome}
-            preprocess_completed = remove_host_nanopore(preprocess_nanopore.out, host_genome)
+            preprocess_completed = remove_host_nanopore(reads, host_genome)
         }
 
         if(!params.skip_map){
@@ -98,11 +98,11 @@ workflow {
             }
 
             if(!params.skip_blast){
-                blast(polished_contigs.out)
+                blast(polished_contigs)
             }
 
             if(params.do_zoonotic_rank){
-                zoonotic_rank(polished_contigs.out)
+                zoonotic_rank(polished_contigs)
             }
         }
     }

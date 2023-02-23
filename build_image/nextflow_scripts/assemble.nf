@@ -95,6 +95,8 @@ process canu {
 }
 
 process flye {
+    errorStrategy 'ignore'
+    
     tag "${params.prefix}:flye"
     
     publishDir "${params.outdir}/assemble", mode: 'copy', saveAs: { filename -> "${params.prefix}.contigs.fasta"}
