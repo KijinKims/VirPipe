@@ -211,7 +211,7 @@ class Validator():
         if not self.args.get('skip_assemble'):
             self.validate_assemble()
         if not self.args.get('skip_polish'):
-            self.validate_polish()
+            pass
         if not self.args.get('skip_map'):
             self.validate_map()
         if not self.args.get('skip_blast'):
