@@ -38,8 +38,6 @@ process ava_map {
 process racon {
     tag "${params.prefix}:racon"
 
-    publishDir "${params.outdir}/polish", mode: 'copy', saveAs: { filename -> params.tool.tokenize().contains("medaka") ? "${params.prefix}.racon_polished_contigs.fasta" : filename }
-
     input:
         path contigs
         path reads

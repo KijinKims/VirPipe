@@ -1,6 +1,4 @@
 import os
-from os.path import abspath
-import docker
 import sys
 
 def is_gz_file(filepath):
@@ -49,7 +47,6 @@ class DockerRunner():
                 mount_path = f"{base_input_dir}/dir-ref"
 
             if mount_path != '':
-                path = abspath(path)
                 self.volumes[path] = {'bind': mount_path, 'mode': 'ro'}
 
     def bind_database(self):
@@ -66,7 +63,6 @@ class DockerRunner():
                 mount_path = f"{base_database_dir}/taxonomizr-db.sql"
 
             if mount_path != '':
-                path = abspath(path)
                 if name in ['centrifuge_db', 'blast_db']:
                     head, _ = os.path.split(path)
                     self.volumes[head] = {'bind': mount_path, 'mode': 'ro'}

@@ -1,4 +1,5 @@
 import argparse
+import os
 
 def check_positive_int(value):
     try:
@@ -34,11 +35,11 @@ class Parser:
         platform_parser.add_argument('--platform', nargs='?', choices=['illumina', 'nanopore'], required=True)
 
         fastq_input_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
-        fastq_input_parser.add_argument('--fastq', required=True)
-        fastq_input_parser.add_argument('--fastq2')
+        fastq_input_parser.add_argument('--fastq', required=True, type=os.path.abspath)
+        fastq_input_parser.add_argument('--fastq2', type=os.path.abspath)
 
         fasta_input_parser = argparse.ArgumentParser(add_help=False, argument_default=argparse.SUPPRESS)
-        fasta_input_parser.add_argument('--fasta', required=True)
+        fasta_input_parser.add_argument('--fasta', required=True, type=os.path.abspath)
 
         qc_parser = subparsers.add_parser('qc', parents=[common_parser, platform_parser, fastq_input_parser], argument_default=argparse.SUPPRESS)
         qc_parser.add_argument('--nanopore-min-read-quality', nargs='?', type=check_positive_int, default=8)
@@ -50,31 +51,31 @@ class Parser:
         preprocess_parser.add_argument('--nanopore-min-read-length', nargs='?', type=check_positive_int, default=200)
         
         remove_host_parser = subparsers.add_parser('remove-host', parents=[common_parser, platform_parser, fastq_input_parser], argument_default=argparse.SUPPRESS)
-        remove_host_parser.add_argument('--host-genome', nargs='?', required=True)
+        remove_host_parser.add_argument('--host-genome', nargs='?', required=True, type=os.path.abspath)
 
         map_parser = subparsers.add_parser('map', parents=[common_parser, platform_parser, fastq_input_parser], argument_default=argparse.SUPPRESS)
         map_parser.add_argument('--save-map-bam', action='store_true', default=False)
-        map_parser.add_argument('--ref', nargs='*')
-        map_parser.add_argument('--dir-ref', nargs='?')
+        map_parser.add_argument('--ref', nargs='*', type=os.path.abspath)
+        map_parser.add_argument('--dir-ref', nargs='?', type=os.path.abspath)
         map_parser.add_argument('--min-avg-cov', nargs='?', type=check_positive_float, default=1.0)
 
         classify_taxonomy_parser = subparsers.add_parser('classify-taxonomy', parents=[common_parser, platform_parser, fastq_input_parser], argument_default=argparse.SUPPRESS)
         classify_taxonomy_parser.add_argument('--kraken2-confidence-threshold', nargs='?', type=check_positive_float, default=0.1)
-        classify_taxonomy_parser.add_argument('--kraken2-db', nargs='?')
-        classify_taxonomy_parser.add_argument('--centrifuge-db', nargs='?')
+        classify_taxonomy_parser.add_argument('--kraken2-db', nargs='?', type=os.path.abspath)
+        classify_taxonomy_parser.add_argument('--centrifuge-db', nargs='?', type=os.path.abspath)
 
         assemble_parser = subparsers.add_parser('assemble', parents=[common_parser, platform_parser, fastq_input_parser], argument_default=argparse.SUPPRESS)
         assemble_parser.add_argument('--assembly-tool', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
         assemble_parser.add_argument('--min-contig-length', nargs='?', type=check_positive_int, default=600)
 
         polish_parser = subparsers.add_parser('polish', parents=[common_parser, fasta_input_parser], argument_default=argparse.SUPPRESS)
-        polish_parser.add_argument('--reads', required=True)
+        polish_parser.add_argument('--reads', required=True, type=os.path.abspath)
 
         blast_parser = subparsers.add_parser('blast', parents=[common_parser, fasta_input_parser], argument_default=argparse.SUPPRESS)
-        blast_parser.add_argument('--blast-db', nargs='?', required=True)
+        blast_parser.add_argument('--blast-db', nargs='?', required=True, type=os.path.abspath)
         blast_parser.add_argument('--min-evalue', nargs='?', default='1.0e-5')
         blast_parser.add_argument('--min-blast-aln-len', nargs='?', type=check_positive_int, default=100)
-        blast_parser.add_argument('--taxonomizr-db', nargs='?', required=True)
+        blast_parser.add_argument('--taxonomizr-db', nargs='?', required=True, type=os.path.abspath)
 
         zoonotic_rank_parser = subparsers.add_parser('zoonotic-rank', parents=[common_parser, fasta_input_parser], argument_default=argparse.SUPPRESS)
 
@@ -84,21 +85,21 @@ class Parser:
         all_parser.add_argument('--nanopore-min-read-quality', nargs='?', type=check_positive_int, default=8)
         all_parser.add_argument('--nanopore-min-read-length', nargs='?', type=check_positive_int, default=200)
         all_parser.add_argument('--save-host-removed', action='store_true', default=False)
-        all_parser.add_argument('--host-genome', nargs='?')
+        all_parser.add_argument('--host-genome', nargs='?', type=os.path.abspath)
         all_parser.add_argument('--save-map-bam', action='store_true', default=False)
-        all_parser.add_argument('--ref', nargs='*')
-        all_parser.add_argument('--dir-ref', nargs='?')
+        all_parser.add_argument('--ref', nargs='*', type=os.path.abspath)
+        all_parser.add_argument('--dir-ref', nargs='?', type=os.path.abspath)
         all_parser.add_argument('--min-avg-cov', nargs='?', type=check_positive_float, default=1.0)
         all_parser.add_argument('--kraken2-confidence-threshold', nargs='?', type=check_positive_float, default=0.1)
-        all_parser.add_argument('--kraken2-db', nargs='?')
-        all_parser.add_argument('--centrifuge-db', nargs='?')
+        all_parser.add_argument('--kraken2-db', nargs='?', type=os.path.abspath)
+        all_parser.add_argument('--centrifuge-db', nargs='?', type=os.path.abspath)
         all_parser.add_argument('--assembly-tool', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
         all_parser.add_argument('--min-contig-length', nargs='?', type=check_positive_int, default=600)
-        all_parser.add_argument('--reads')
-        all_parser.add_argument('--blast-db', nargs='?')
+        all_parser.add_argument('--reads', type=os.path.abspath)
+        all_parser.add_argument('--blast-db', nargs='?', type=os.path.abspath)
         all_parser.add_argument('--min-evalue', nargs='?', default='1.0e-5')
         all_parser.add_argument('--min-blast-aln-len', nargs='?', type=check_positive_int, default=100)
-        all_parser.add_argument('--taxonomizr-db', nargs='?')
+        all_parser.add_argument('--taxonomizr-db', nargs='?', type=os.path.abspath)
 
         all_parser.add_argument('--skip-qc', action='store_true', default=False)
         all_parser.add_argument('--skip-preprocess', action='store_true', default=False)
@@ -110,7 +111,7 @@ class Parser:
         all_parser.add_argument('--skip-blast', action='store_true', default=False)
         all_parser.add_argument('--do-zoonotic-rank', action='store_true', default=False)
 
-        all_parser.add_argument('--args-from-file', nargs='?')
+        all_parser.add_argument('--args-from-file', nargs='?', type=os.path.abspath)
 
         self.args = parser.parse_args(argv)
 
