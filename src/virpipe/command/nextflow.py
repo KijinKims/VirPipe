@@ -29,7 +29,6 @@ class CommandConverter():
                         self.comp_list.append(f"-{k}")
                 elif 'db' in k:
                     if k in ['centrifuge_db', 'blast_db']:
-                        _, tail = os.path.split(v)
                         self.comp_list.append(self.bind_database(k, v)+f"/{tail}")
                     else:
                         self.comp_list.append(self.bind_database(k, v))
@@ -43,9 +42,11 @@ class CommandConverter():
             if name == 'kraken2_db':
                 return f"--{name} {base_database_dir}/kraken2-db"
             elif name == 'centrifuge_db':
-                return f"--{name} {base_database_dir}/centrifuge-db"
+                _, tail = os.path.split(path)
+                return f"--centrifuge_db_dir {base_database_dir}/centrifuge-db --centrifuge_db_name {tail}"
             elif name == 'blast_db':
-                return f"--{name} {base_database_dir}/blast-db"
+                _, tail = os.path.split(path)
+                return f"--blast_db_dir {base_database_dir}/blast-db --blast_db_name {tail}"
             elif name == 'taxonomizr_db':
                 return f"--{name} {base_database_dir}/taxonomizr-db.sql"
 

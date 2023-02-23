@@ -34,9 +34,9 @@ workflow assemble_nanopore {
         filtered_contigs
     main:
         
-        if (params.tool == "canu") {
+        if (params.assembly_tool == "canu") {
             contigs = canu(fastq)
-        } else if (params.tool == "megahit") {
+        } else if (params.assembly_tool == "megahit") {
             contigs = megahit(fastq)
         } else {
             contigs = flye(fastq)
