@@ -171,7 +171,7 @@ class Validator():
                  'min_contig_length',
                  'min_blast_aln_len']
         
-        float_k = ['min_avg_dep',
+        float_k = ['min_avg_cov',
                    'kraken2_confidence_threshold']
 
         with open(filename) as f_in:
