@@ -44,7 +44,7 @@ process blastn {
     """
     { echo 'QUERY_ID\tREF_ID\tTAX_ID\tREF_TITLE\tPER_IDENT\tQUERY_LEN\tALN_LEN\tMISMATCH\tGAPOPEN\tQUERY_START\tQUERY_END\tREF_START\tREF_END\tEVALUE\tBITSCORE'; \
     blastn -query $contigs -db "${blast_db_dir}/${params.blast_db_name}" -task blastn -evalue ${params.min_evalue} -max_target_seqs 1 -outfmt "6 qseqid sseqid staxids stitle pident qlen length mismatch gapopen qstart qend sstart send evalue bitscore" -num_threads 12; \
-    } > ${params.prefix}.blastn.txt
+    } > ${params.prefix}.blastn.raw.txt
     """
 }
 
@@ -61,7 +61,7 @@ process megablast {
     """
     { echo 'QUERY_ID\tREF_ID\tTAX_ID\tREF_TITLE\tPER_IDENT\tQUERY_LEN\tALN_LEN\tMISMATCH\tGAPOPEN\tQUERY_START\tQUERY_END\tREF_START\tREF_END\tEVALUE\tBITSCORE'; \
     blastn -query $contigs -db "${blast_db_dir}/${params.blast_db_name}" -task megablast -evalue ${params.min_evalue} -max_target_seqs 1 -outfmt "6 qseqid sseqid staxids stitle pident qlen length mismatch gapopen qstart qend sstart send evalue bitscore" -num_threads 12; \
-    } > ${params.prefix}.megablast.txt
+    } > ${params.prefix}.megablast.raw.txt
     """
 }
 
