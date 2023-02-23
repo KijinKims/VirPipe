@@ -26,7 +26,7 @@ workflow remove_host_illumina {
     main:
         host_map_pair(fastq_pair, host_genome)
         host_removed = extract_not_mapped_reads_pair(host_map_pair.out)
-        summary_illumina(fastq_pair, host_removed)
+        summary_illumina(fastq_pair, host_removed, host_genome)
 }
 
 workflow remove_host_nanopore {
@@ -38,7 +38,7 @@ workflow remove_host_nanopore {
     main:
         host_map_single(fastq, host_genome)
         host_removed = extract_not_mapped_reads_single(host_map_single.out)
-        summary_nanopore(fastq, host_removed)
+        summary_nanopore(fastq, host_removed, host_genome)
 }
 
 process host_map_pair {
@@ -116,11 +116,12 @@ process summary_illumina {
     publishDir path: "$params.outdir/host_removed", mode: 'copy'
     input:
         tuple path(prepreprocess_1), path(prepreprocess_2) 
-        tuple path(postpreprocess_1), path(postpreprocess_2) 
+        tuple path(postpreprocess_1), path(postpreprocess_2)
+        path host_genome
     output:
         path "remove_host_summary.txt"
     """
-    echo "#host_genome_path=$params.host_genome.Name" >> remove_host_summary.txt
+    echo "#host_genome_path=${host_genome.name}" >> remove_host_summary.txt
     echo "file\tpre\tpost"  >> remove_host_summary.txt
 
     pre_1=\$(bc <<< \$(cat $prepreprocess_1 | wc -l)/4)
@@ -145,10 +146,11 @@ process summary_nanopore {
     input:
         path prepreprocess
         path postpreprocess
+        path host_genome
     output:
         path "remove_host_summary.txt"
     """
-    echo "#host_genome_path=$params.host_genome.name" >> remove_host_summary.txt
+    echo "#host_genome_path=${host_genome.name}" >> remove_host_summary.txt
     echo "file\tpre\tpost"  >> remove_host_summary.txt
 
     pre=\$(bc <<< \$(cat $prepreprocess | wc -l)/4)
