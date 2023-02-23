@@ -141,8 +141,6 @@ class Validator():
                 self.args['assembly_tool'] = 'spades'
 
     def validate_polish(self):
-        if not self.args.get('reads'):
-            raise InputError("--reads is required. If you don't want to polish, use --skip-polish.")
         self.is_fastq(self.args.get('reads'))
 
     def validate_map(self):

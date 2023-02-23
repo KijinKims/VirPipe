@@ -95,7 +95,6 @@ class Parser:
         all_parser.add_argument('--centrifuge-db', nargs='?', type=os.path.abspath)
         all_parser.add_argument('--assembly-tool', nargs='?', choices=['spades', 'megahit', 'canu', 'flye'])
         all_parser.add_argument('--min-contig-length', nargs='?', type=check_positive_int, default=600)
-        all_parser.add_argument('--reads', type=os.path.abspath)
         all_parser.add_argument('--blast-db', nargs='?', type=os.path.abspath)
         all_parser.add_argument('--min-evalue', nargs='?', default='1.0e-5')
         all_parser.add_argument('--min-blast-aln-len', nargs='?', type=check_positive_int, default=100)

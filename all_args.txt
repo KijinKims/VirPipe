@@ -23,9 +23,6 @@ centrifuge-db=
 assembly-tool=flye
 min-contig-length=600
 
-# polish
-reads=
-
 # blast
 blast-db=
 min-evalue=1.0e-5
