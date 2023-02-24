@@ -1,13 +1,13 @@
 nextflow.enable.dsl=2
 include { qc_illumina; qc_nanopore } from './qc'
 include { preprocess_illumina; preprocess_nanopore } from './preprocess'
-include { remove_host_illumina; remove_host_nanopore } from './remove_host'
+include { remove_host_illumina; remove_host_nanopore } from './remove-host'
 include { map_illumina; map_nanopore } from './map'
-include { classify_taxonomy_illumina; classify_taxonomy_nanopore } from './classify_taxonomy'
+include { classify_taxonomy_illumina; classify_taxonomy_nanopore } from './classify-taxonomy'
 include { assemble_illumina; assemble_nanopore } from './assemble' addParams(tool: params.assembly_tool)
 include { polish } from './polish'
 include { blast } from './blast'
-include { zoonotic_rank } from './zoonotic_rank'
+include { zoonotic_rank } from './zoonotic-rank'
 
 workflow {
 
