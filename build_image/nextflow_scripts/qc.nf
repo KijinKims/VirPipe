@@ -64,20 +64,6 @@ process nanoplot {
     script:
         """
         #!/usr/bin/env bash
-
-        fullfile=\$(basename -- "$f")
-        ext="\${fullfile##*.}"
-        filename="\${fullfile%.*}"
-        if [[ $f == *gz || $f == *gunzip ]] ; then
-            real_ext="\${filename##*.}"
-        else
-            real_ext=\$ext
-        fi
-
-        if [[ \${real_ext} == "fastq" || \${real_ext} == "fq" ]]; then
-            NanoPlot --fastq $f --minlength ${params.nanopore_min_read_length} --minqual ${params.nanopore_min_read_quality}
-        else
-            NanoPlot --fasta $f --minlength ${params.nanopore_min_read_length} --minqual ${params.nanopore_min_read_quality}
-        fi
+        NanoPlot --fastq $f --minlength ${params.nanopore_min_read_length} --minqual ${params.nanopore_min_read_quality}
         """
 }
