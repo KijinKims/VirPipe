@@ -42,7 +42,7 @@ process decompress_pair {
     input:
         tuple path(pe1), path(pe2)
     output:
-        tuple path("${pe1.simpleName}.fastq"), path("${pe2.simpleName}.fastq")
+        tuple path("${pe1.simpleName}.fastq"), path("${pe2.simpleName}.fastq"), includeInputs: true
     script:
 
     if (pe1.Extension == "gz" || pe1.Extension == "gunzip")
