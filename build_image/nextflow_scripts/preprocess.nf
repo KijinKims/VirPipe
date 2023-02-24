@@ -168,7 +168,7 @@ process summary_nanopore {
 
     pre=\$(bc <<< \$(cat $prepreprocess | wc -l)/4)
     post=\$(bc <<< \$(cat $postpreprocess | wc -l)/4)
-    line="single\t"
+    line="-\t"
     line+="\$pre\t"
     line+="\$post"
     echo \$line >> preprocess_summary.txt
