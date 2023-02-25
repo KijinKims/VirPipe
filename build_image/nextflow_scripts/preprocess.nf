@@ -138,7 +138,7 @@ process summary_illumina {
 
     pre_2=\$(bc <<< \$(cat $prepreprocess_2 | wc -l)/4)
     post_2=\$(bc <<< \$(cat $postpreprocess_2 | wc -l)/4)
-    line_2="pe1\t"
+    line_2="pe2\t"
     line_2+="\$pre_2\t"
     line_2+="\$post_2"
     echo \$line_2 >> preprocess_summary.txt
