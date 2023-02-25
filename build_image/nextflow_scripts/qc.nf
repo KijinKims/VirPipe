@@ -61,9 +61,7 @@ process nanoplot {
         path f
     output:
         path "NanoPlot-report.html"
-    script:
-        """
-        #!/usr/bin/env bash
-        NanoPlot --fastq $f --minlength ${params.nanopore_min_read_length} --minqual ${params.nanopore_min_read_quality}
-        """
+    """
+    NanoPlot --fastq $f --minlength ${params.nanopore_min_read_length} --minqual ${params.nanopore_min_read_quality}
+    """
 }

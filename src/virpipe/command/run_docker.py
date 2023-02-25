@@ -72,11 +72,14 @@ class DockerRunner():
 
     def run(self, nextflow_command):
         client = docker.from_env()
-        container = client.containers.run(image=self.image,
-                              command=nextflow_command,
-                              detach=True,
-                              volumes=self.volumes,
-                              working_dir='/home/user/run')
+        try:
+            container = client.containers.run(image=self.image,
+                                command=nextflow_command,
+                                detach=True,
+                                volumes=self.volumes,
+                                working_dir='/home/user/run')
+        except:
+            container.kill()
         
         out = container.logs(stdout=True, stderr=False, stream=True)
         err = container.logs(stdout=False, stderr=True, stream=True)
