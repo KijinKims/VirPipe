@@ -33,3 +33,4 @@ dependencies:
   - bioconda::r-taxonomizr
   - bioconda::prodigal
   - conda-forge::r-cairo
+  - conda-forge::tensorflow=2.11
