@@ -27,7 +27,7 @@ ENV PATH /opt/conda/envs/virpipe/bin:$PATH
 
 # Install r package that cannot be installed with conda:
 RUN /bin/bash -c "source activate virpipe"
-RUN R -e "install.packages(\"MetaComp\", repos = \"http://cran.us.r-project.org\")"
+RUN R -e "install.packages(c(\"MetaComp\",\"taxonomizr\"), repos = \"http://cran.us.r-project.org\")"
 
 # Install independent environment for zoonotic_rank:
 RUN mamba env create -f environment_zoonotic_rank.yml
