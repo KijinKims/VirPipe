@@ -30,8 +30,6 @@ dependencies:
   - bioconda::racon
   - bioconda::medaka
   - bioconda::blast
-  - bioconda::r-taxonomizr
   - bioconda::prodigal
   - conda-forge::r-cairo
   - conda-forge::tensorflow=2.11
-  - conda-forge::tensorflow=1.23
