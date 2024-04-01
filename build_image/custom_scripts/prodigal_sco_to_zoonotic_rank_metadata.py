@@ -50,7 +50,7 @@ with open(args.input) as f:
             direction = cds_list[3]
             entry = Entry(seq_name, cord_start, cord_end, direction)
             if transl_table == '11':
-                df = df.append(entry.retrieve_as_pd_entry(), ignore_index=True)
+                df = df.concat([df, entry.retrieve_as_pd_entry()], ignore_index=True)
 
 df = df.rename(columns={'name':'Name','id':'SequenceID','start':'CodingStart','end':'CodingStop'})
 df.to_csv(args.output, index=False, header=True, columns=['Name','SequenceID','CodingStart','CodingStop'])
